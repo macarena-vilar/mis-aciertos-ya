@@ -3,6 +3,20 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.entryNumberWhite').keyup(function(){
+            this.value = this.value.replace(/[^0-9\.]/g,'');
+        });
+        $('.input-group.date').datepicker({
+            format: "dd/mm/yyyy",
+            todayBtn: "linked",
+            language: "es",
+            autoclose: true,
+            todayHighlight : true
+        });
+    });
+</script>
 
 <div class="container ">
     {% include 'AppBundle:Results:game.html.twig' with games["P"] %}

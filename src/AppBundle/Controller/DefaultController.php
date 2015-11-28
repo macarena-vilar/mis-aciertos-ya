@@ -13,9 +13,27 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-        ));
+    	$divs = array(
+    			"games" => array(
+    					"P" =>
+    					array (
+    							"gameId"      => "P",
+    							"gameName"    => "Premio",
+    							"gameLogo"    => "/assets/images/logoPremio.png",
+    							"gameNumbers" => 10,
+    							"inpOffset"   => ""
+    					),
+    					"E" =>
+    					array (
+    							"gameId"      => "E",
+    							"gameName"    => "Elegi2",
+    							"gameLogo"    => "/assets/images/logoElegi2.png",
+    							"gameNumbers" => 2,
+    							"inpOffset"   => ""
+    					)
+    			)
+    	);
+    	return $this->render('AppBundle:Results:results.html.twig',$divs);
+    	 
     }
 }
