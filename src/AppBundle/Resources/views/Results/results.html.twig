@@ -1,0 +1,13 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+<div class="container ">
+    {% include 'AppBundle:Results:game.html.twig' with games["P"] %}
+    {% include 'AppBundle:Results:game.html.twig' with games["E"] %}
+</div>  
+
+
+{% endblock %}

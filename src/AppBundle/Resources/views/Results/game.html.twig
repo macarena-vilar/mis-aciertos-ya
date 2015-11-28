@@ -1,0 +1,66 @@
+<style type="text/css">
+	.tab{{gameName}}Bg {
+	        background:url('{{gameLogo}}') #f0f0f0 no-repeat center;
+	        border-bottom:4px solid #093!important;
+	        height: 85px;
+	}
+	.colTab {
+	        border-right:4px solid #093!important;	
+	}
+	.panelBg {
+		background:#f0f0f0;
+        border:1px solid #093!important;
+	}
+</style>
+<div class="panel panelBg col-xs-6">
+    <div class="row tab{{gameName}}Bg">
+    </div>
+    <div class="row">
+        <div class="text-center">
+        	<h4>Mis n&uacute;meros</strong></h4>
+        </div>
+    </div>
+    <div class="row center-block" style="margin:auto">
+{% for i in 1..gameNumbers %}
+            <input type="text" class="form-control entryNumberWhite"  maxlength="2" id="nr[]" size="2"/>
+{% endfor %}            
+    </div>
+    <div class="row">
+        <div class="text-center">
+            <h4>Fecha del sorteo</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-offset-1 col-xs-10">
+            <div class="input-group date">
+                <input type="text" class="form-control">
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th">
+                        </i>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    	<h4>&nbsp;</h4>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <div class="col-xs-offset-6">
+                <button type="button" class="btn btn-primary btn-large" id="{{gameName}}-submit">
+                    Buscar premio
+                </button>
+                <button type="button" class="btn btn-primary btn-large" id="{{gameName}}-anteriores">
+                    Sorteos anteriores
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="table-responsive" id="{{gameName}}-tabla-ant">
+            <table borde="1" class="table table-striped">
+                <tbody/>
+            </table>
+        </div>
+    </div>
+</div>
