@@ -26,7 +26,8 @@ class Fsp_GamesRepository extends \Doctrine\ORM\EntityRepository
 			return null;
 		}
 	}
-	public function getGamesByDate($gameId,$gameDate) {
-	}
+	
+	public function getGamesHistory($gameId,$offset,$limit) {
+	
 	}
 }

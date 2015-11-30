@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<game xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-            xsi:noNamespaceSchemaLocation="winningNrs.xsd">
+<game>
   <gameId>E</gameId>
   <drawNR>1001</drawNR>
   <drawDate>2015-05-05</drawDate>

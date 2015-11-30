@@ -26,7 +26,7 @@ class GamesController extends FOSRestController
 	/**
  	 * @Route("/api/v1/history/{gameId}", name="winpage")
 	 */
-	public function getGames($gameId) {
+	public function getGamesHistory($gameId) {
 		
 		$offset = $paramFetcher->get('offset');
 		$start = null == $offset ? 0 : $offset + 1;
