@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 class GamesController extends FOSRestController
 {
 	/**
- 	 * @Route("/api/v1/hits/{gameId}/{gameDate}", name="winpage")
-	 */
+ 	 * @Route("/hits1", name="winpage")
+ 	 */
 	public function getGames($gameId,$gameDate) {
 		$repo = $this->getDoctrine()
 					  ->getRepository('AppBundle:Fsp_Games');

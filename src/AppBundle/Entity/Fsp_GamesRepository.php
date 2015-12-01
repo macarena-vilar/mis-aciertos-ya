@@ -2,6 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Util\GameHelperPremio;
+use AppBundle\Util\GameHelperElegi2;
+use \Exception;
 /**
  * Fsp_GamesRepository
  *
@@ -10,18 +13,51 @@ namespace AppBundle\Entity;
  */
 class Fsp_GamesRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function getGamesByDate($gameId,$gameDate) {
+	public static function newInstance($gameId) {
+		if ( $gameId == "P" )
+			return new GameHelperPremio();
+		else if ( $gameId == "E" )
+			return new GameHelperElegi2();
+		else
+			throw new Exception("Juego desconocido", 1);
+	}
+	
+	public function getGamesByDate($gameId,$gameDate,$winArr) {
 		$query = $this->getEntityManager()
 		              ->createQuery ( 
 		              		"select g 
         	                   from AppBundle:Fsp_Games g
-                              where g.gameId = :gameId
-		              		    and g.gameDateTime = :gameDate
+                              where g.gameId    = :gameId
+		              		    and g.gameDate = :gameDate
 		              		  order by g.drawNr desc,g.winningNr")
 		              ->setParameter ( "gameId", $gameId )
 		              ->setParameter ( "gameDate", $gameDate );
 		try {
-			return $query->getResult();
+			$data = $query->getResult();
+			$result = array();
+			$drawNr = -1;
+			
+			foreach ( $data as $row ) {
+				if ( $row->getDrawNr() != $drawNr ) {
+					$drawNr = $row->getDrawNr();
+					$result[$drawNr] = array(
+							"drawNr"   => $drawNr,
+							"gameDate" => $row->getGameDate()->format("d/m/Y"),
+							"hits"     => 0,
+							"winArr"   => array()
+					);
+				}
+				$hit = 0;
+				if ( in_array($row->getWinningNr(),$winArr) ){
+					$hit = 1;
+					$result[$drawNr]["hits"]++;
+				}
+				$result[$drawNr]["winArr"][] = array(
+					"winningNr" => 	$row->getWinningNr(),
+					"hit"       => $hit
+				);			
+			}
+			return $result;
 		} catch ( \Doctrine\ORM\NoResultException $e ) {
 			return null;
 		}

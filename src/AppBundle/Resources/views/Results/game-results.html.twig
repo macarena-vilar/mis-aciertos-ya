@@ -1,0 +1,18 @@
+{% for r in results %}
+<tr>
+	<td>
+	<div class="row">
+		<span class='entryNumberText'>
+			Sorteo {{ r.drawNr }}
+		</span>
+	</div
+	<div class="row">
+{% for wNr in r.winArr %}
+		<span class='entryNumber{{  wNr.hit== 0 ? 'No' }}Hit'>
+			{{ wNr.winningNr }}
+		</span>		
+{% endfor %}
+	</div>
+	</td>
+</tr>
+{% endfor %}

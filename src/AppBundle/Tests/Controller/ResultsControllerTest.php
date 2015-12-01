@@ -6,11 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ResultsControllerTest extends WebTestCase
 {
-    public function testPremio()
+    public function testHits()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/premio');
+        $crawler = $client->request('GET', '/hits');
     }
 
 }

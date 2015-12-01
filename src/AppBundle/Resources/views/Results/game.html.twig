@@ -20,9 +20,9 @@
         	<h4>Mis n&uacute;meros</strong></h4>
         </div>
     </div>
-    <div class="row center-block" style="margin:auto">
+    <div class="row center-block" id="{{ gameName }}-nrList">
 {% for i in 1..gameNumbers %}
-            <input type="text" class="form-control entryNumberWhite"  maxlength="2" id="nr[]" size="2"/>
+            <input type="text" class="form-control entryNumberWhite"  maxlength="2" id="nr[]" data-game="{{ gameId }}" size="2"/>
 {% endfor %}            
     </div>
     <div class="row">
@@ -33,11 +33,12 @@
     <div class="row">
         <div class="col-xs-offset-1 col-xs-10">
             <div class="input-group date">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" id="{{ gameName }}-date">
                     <span class="input-group-addon">
                         <i class="glyphicon glyphicon-th">
                         </i>
                     </span>
+                </input>
             </div>
         </div>
     </div>
@@ -47,19 +48,26 @@
     <div class="row">
         <div class="form-group">
             <div class="col-xs-offset-6">
-                <button type="button" class="btn btn-primary btn-large" id="{{gameName}}-submit">
+                <button type="button" class="btn btn-primary btn-large" id="{{gameName}}-submit" data-gameId="{{ gameId }}">
+                	<i id="{{ gameName }}-spinner-r" class="fa fa-refresh fa-spin hidden"></i>
                     Buscar premio
                 </button>
-                <button type="button" class="btn btn-primary btn-large" id="{{gameName}}-anteriores">
+                <button type="button" class="btn btn-primary btn-large" id="{{gameName}}-previous">
+                	<i id="{{ gameName }}-spinner-prv" class="fa fa-refresh fa-spin hidden"></i>
                     Sorteos anteriores
                 </button>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="table-responsive" id="{{gameName}}-tabla-ant">
-            <table borde="1" class="table table-striped">
-                <tbody/>
+        <div class="table-responsive">
+            <table border="1"  id="{{gameName}}-tab-r" class="table table-striped">
+                <tbody>
+                <tr>
+                	<td>
+                	qqrulo
+                	</td>
+                </tr>
             </table>
         </div>
     </div>

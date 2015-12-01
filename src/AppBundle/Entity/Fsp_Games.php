@@ -40,7 +40,7 @@ class Fsp_Games
      *
      * @ORM\Column(name="gameDate", type="date")
      */
-    private $gameDateTime;
+    private $gameDate;
 
     /**
      * @var integer
@@ -109,27 +109,27 @@ class Fsp_Games
     }
 
     /**
-     * Set gameDateTime
+     * Set gameDate
      *
-     * @param \DateTime $gameDateTime
+     * @param \Date $gameDate
      *
      * @return Fsp_Games
      */
-    public function setGameDateTime($gameDateTime)
+    public function setGameDate($gameDate)
     {
-        $this->gameDateTime = $gameDateTime;
+        $this->gameDate = $gameDate;
 
         return $this;
     }
 
     /**
-     * Get gameDateTime
+     * Get gameDate
      *
-     * @return \DateTime
+     * @return \Date
      */
-    public function getGameDateTime()
+    public function getGameDate()
     {
-        return $this->gameDateTime;
+        return $this->gameDate;
     }
 
     /**
