@@ -86,19 +86,15 @@
   </div>
 </div>
 
-<div class="container ">
-	<div class="jumbotron">
-		<h1>El header de la aplicaci&oacute;n</h1>            
-		<ul class="social-icons icon-circle icon-zoom list-unstyled list-inline"> 
-			<li><a href="#"><i class="fa fa-twitter"></i></a> </li> 
-			<li><a href="#"><i class="fa fa-facebook"></i></a> </li>   
-			<li><a href="#"><i class="fa fa-youtube"></i></a> </li> 
-			<li><a href="#"><i class="fa fa-rss"></i></a> </li>   
-	  	</ul>
-  	</div>
-    {% include 'AppBundle:Results:game.html.twig' with games["P"] %}
-    {% include 'AppBundle:Results:game.html.twig' with games["E"] %}
+<div class="container" id="main">
+	<div class="row">
+{% include 'AppBundle:Results:game.html.twig' with games["P"] %}
+{% include 'AppBundle:Results:game.html.twig' with games["E"] %}
+    </div>
 </div>  
+
+<div class="clearfix"></div>
+<hr>
 
 
 {% endblock %}
