@@ -30,27 +30,40 @@
 	    $('#pastDraws').DataTable( {
 	        "processing": true,
 	        "serverSide": true,
-	        "ajax": "/api/v1/pastGames/{{ gameId }}"
+	        "ajax": "/api/v1/pastGames/{{ gameId }}",
+	        "columnDefs": [{ "render": function (data, type, row ) {
+	            							return    "<h4>Sorteo Nro." 
+	            							        + data 
+	            							        + "  del d&iacute;a " 
+	            							        + row.gameDate + "</h4>";
+		        						} ,
+	                           "targets": 0
+	                       },
+	                       { "render": function (data, type, row ) {
+		                       				var r = "";
+		                       				for ( i=0 ; i<data.length ; i++ ) {
+		                       					r = r + "<span class='entryNumberHit'>";
+		                       					r = r + data[i];
+		                       					r = r + "</span>";
+	                       					}
+	                       					return r;          								
+   						               } ,
+                              "targets": 2},
+                            {                 
+                                  "targets": [ 1 ],
+                                  "visible": false,
+	    					}],
+	        "columns" : [
+	         	 { "data" : "drawNr"} ,
+	         	 { "data" : "gameDate"},
+	         	 { "data" : "winArr"}
+	        ]
 	    } );
 	} );	</script>     
 </head>
     <body>
-		<table id="pastDraws" class="display" cellspacing="0" width="100%">
-		        <thead>
-		            <tr>
-		                <th>Fecha</th>
-		                <th>N&uacute;meros ganadores</th>
-		            </tr>
-		        </thead>
-		        <tfoot>
-		            <tr>
-		                <th>Fecha</th>
-		                <th>N&uacute;meros ganadores</th>
-		            </tr>
-		        </tfoot>
+		<table id="pastDraws" class="table table-striped" cellspacing="0" width="100%">
 		</table>
-    
-    
     	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
     </body>
 </html>

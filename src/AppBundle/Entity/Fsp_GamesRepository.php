@@ -63,13 +63,20 @@ class Fsp_GamesRepository extends \Doctrine\ORM\EntityRepository
 		}
 	}
 	
-	public function getPastGames($gameId,$offset,$limit) {
+	public function getPastGames($gameId,$start,$limit) {
 		$query = $this->getEntityManager()
 		               ->createQuery ( "select g
         	                              from AppBundle:Fsp_Games g
                                          where g.gameId    = :gameId
 		              		             order by g.drawNr desc,g.winningNr")
 				       ->setParameter ( "gameId", $gameId );
+		print_r($query->getSQL());
+		if ( $limit !== 0 )					
+			$query = $query->setMaxResults($limit);
+		/*if ( $start !== 0 )
+			$query = $query->setFirstResult($start);*/
+		print_r($query->getSQL());
+		
 		try {
 			$data = $query->getResult();
 			$result = array();

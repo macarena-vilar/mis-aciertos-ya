@@ -44,10 +44,14 @@ class ResultsController extends FOSRestController
 		$repo = $this->getDoctrine()
 					 ->getRepository('AppBundle:Fsp_Games');
 		
-		$data = $repo->getPastGames($gameId,0,0);
+		$draw  = $this->getRequest()->get("draw",1);
+		$start = $this->getRequest()->get("start",0);
+		$limit = $this->getRequest()->get("length",0);
+		
+		$data = $repo->getPastGames($gameId,1,10);//$start,$limit);
 		
 		$arr = array (
-				"draw" => 1,
+				"draw" => 10,//$draw,
 				"recordsTotal" => count($data),
 				"recordsFiltered" => count($data),
 				"data"=> $data
