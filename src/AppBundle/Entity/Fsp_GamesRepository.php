@@ -63,7 +63,33 @@ class Fsp_GamesRepository extends \Doctrine\ORM\EntityRepository
 		}
 	}
 	
-	public function getGamesHistory($gameId,$offset,$limit) {
-	
+	public function getPastGames($gameId,$offset,$limit) {
+		$query = $this->getEntityManager()
+		               ->createQuery ( "select g
+        	                              from AppBundle:Fsp_Games g
+                                         where g.gameId    = :gameId
+		              		             order by g.drawNr desc,g.winningNr")
+				       ->setParameter ( "gameId", $gameId );
+		try {
+			$data = $query->getResult();
+			$result = array();
+			$drawNr = -1;
+			$i=-1;
+			foreach ( $data as $row ) {
+				if ( $row->getDrawNr() != $drawNr ) {
+					$i++;
+					$drawNr = $row->getDrawNr();
+					$result[$i] = array(
+							"drawNr"   => $drawNr,
+							"gameDate" => $row->getGameDate()->format("d/m/Y"),
+							"winArr"   => array()
+					);
+				}
+				$result[$i]["winArr"][] = $row->getWinningNr();
+			}
+			return $result;
+		} catch ( \Doctrine\ORM\NoResultException $e ) {
+			return null;
+		}
 	}
 }

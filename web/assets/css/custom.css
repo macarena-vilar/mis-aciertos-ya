@@ -158,4 +158,9 @@ footer .glyphicon:hover {
 	display: block; 
 	margin-left: auto; 
 	margin-right: auto;	
+	border: 1px solid black;
+}
+
+.colTab {
+        border-right:4px solid #093!important;	
 }

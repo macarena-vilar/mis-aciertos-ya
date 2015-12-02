@@ -1,19 +1,7 @@
-<style type="text/css">
-	.tab{{gameName}}Bg {
-	        background:url('{{gameLogo}}') #f0f0f0 no-repeat center;
-	        border-bottom:4px solid #093!important;
-	        height: 85px;
-	}
-	.colTab {
-	        border-right:4px solid #093!important;	
-	}
-
-</style>
-
 <div class="col-sm-6">
 	<div class="panel panel-default panelBg">
 		<div class="panel-thumbnail" style="padding-top: 5px">
-			<img  src="{{ gameLogo }}" class="img-responsive gameImg" height="176" width="455" />
+			<img  src="{{ gameLogo }}" class="img-responsive gameImg" height="{{ logoH }}" width="{{ logoW }}" />
 		</div>
 		<div class="panel-body">
 		    <div class="row">
@@ -21,9 +9,9 @@
 		        	<h4>Mis n&uacute;meros</strong></h4>
 		        </div>
 	        </div>
-		    <div class="row gameImg" id="{{ gameName }}-nrList">
+		    <div class="row" id="{{ gameName }}-nrList" style="display:block!important;margin:auto auto;">
 {% for i in 1..gameNumbers %}
-			            <input type="text" class="form-control entryNumberWhite"  maxlength="2" id="nr[]" data-game="{{ gameId }}" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="{{ gameId }}" size="2"/>
 {% endfor %}            
 		    </div>
 		    <div class="row">

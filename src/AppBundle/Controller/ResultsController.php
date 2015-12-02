@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 */
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class ResultsController extends FOSRestController
 {
@@ -34,5 +35,29 @@ class ResultsController extends FOSRestController
 		  
 		return $this->handleView($view);
     }
+    
+    /**
+     * @Route("/api/v1/pastGames/{gameId}")
+     */
+    public function getPastGamesAction($gameId) {
     	
+		$repo = $this->getDoctrine()
+					 ->getRepository('AppBundle:Fsp_Games');
+		
+		$data = $repo->getPastGames($gameId,0,0);
+		
+		$arr = array (
+				"draw" => 1,
+				"recordsTotal" => count($data),
+				"recordsFiltered" => count($data),
+				"data"=> $data
+		);
+		
+    	$serializedEntity = $this->container
+		                         ->get('serializer')
+		                         ->serialize($arr, 'json');
+		
+		return new Response($serializedEntity);
+    	 
+    }
 }
