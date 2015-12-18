@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Script Tutorials" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- attach CSS styles -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css"/>    
+    <link rel="stylesheet" href="/assets/css/social-icons.css"/>
+    <link rel="stylesheet" href="/assets/css/custom.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/s/bs/jqc-1.11.3,dt-1.10.10,r-2.0.0/datatables.min.css"/>
+    
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->         
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-datepicker.es.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/s/bs/jqc-1.11.3,dt-1.10.10,r-2.0.0/datatables.min.js"></script>    
+        
+</head>
+    <body>
+	    <!-- navigation panel -->
+	    <!-- div class="navbar-wrapper">
+	        <div class="container">
+	            <nav class="navbar navbar-inverse" role="navigation">
+	                <div class="container-fluid">
+	                    <div class="navbar-header">
+	                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-main">
+	                            <span class="sr-only"></span>
+	                            <span class="icon-bar"></span>
+	                            <span class="icon-bar"></span>
+	                            <span class="icon-bar"></span>
+	                        </button>
+	                    </div>
+	
+	                    <div class="collapse navbar-collapse" id="navbar-collapse-main">
+	                        <ul class="nav navbar-nav navbar-right">
+	                            <li><a href="#home">Premio</a>
+	                            </li>
+	                            <li><a href="#about">Elegi2</a>
+	                            </li>
+	                            <li><a href="#services">Acerca de</a>
+	                            </li>
+	                            <li><a href="#google_map">Contacto</a>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                </div>
+	            </nav>
+	        </div>
+	    </div-->
+    
+        <script type="text/javascript">
+    $(document).ready(function(){
+        $("#Premio-submit").click(function(evt){
+            loadPrizes("P","Premio");
+        });
+        $("#Elegi2-submit").click(function(evt){
+            loadPrizes("E","Elegi2");
+        });
+        $('.entryNumberWhite').keyup(function(){
+            this.value = this.value.replace(/[^0-9\.]/g,'');
+        });
+        $('.input-group.date').datepicker({
+            format: "dd/mm/yyyy",
+            todayBtn: "linked",
+            language: "es",
+            autoclose: true,
+            todayHighlight : true
+        });
+    });
+    
+    function loadPrizes(gameId,gameName) {
+        nrs = $("#" +gameName+"-nrList .entryNumberWhite"); 
+        spinnerName = gameName + "-spinner-r";  
+        tabName = gameName + "-tab-r";  
+        var guessNrArr = [];
+        for (i = 0; i < nrs.length; i++) {
+            var val = nrs[i].value;
+            if ( val == null || val == "" )
+                return modalError("Debe completar todos los números");
+            guessNrArr.push(nrs[i].value);
+        }
+        gameDate = $("#" + gameName + "-date" ).val();
+        if ( gameDate == null || gameDate  == "" )
+            return modalError("Debe completar la fecha");
+        startSpinner(spinnerName);
+        $.ajax({
+            url    : "/api/v1/hits/" + gameId + "/" + gameDate ,
+            data   : { "winningNr": guessNrArr},
+            method : "get"
+        }).done(function(data) {
+            if ( data == null || data.length == 0 )
+                return modalError("No hay datos para ese juego y esa fecha");
+            $("#" + tabName + " tbody").append(data);
+            $("#" + tabName + " tbody").append(data);
+            $("#" + tabName).removeClass("hidden");
+        }).fail(function(a,b,c) {
+			return modalError("No hay datos para ese juego y esa fecha");
+        }).always(function(){
+            stopSpinner(spinnerName);
+        });
+
+        
+    }
+
+    function modalError(txt) {
+    	$('#modalErrorTxt h4').text(txt); 
+    	$('#modalErrorDialog').modal('show'); 
+    }
+
+    function startSpinner(spinnerName) {
+        $("#" + spinnerName ).removeClass("hidden");
+    }
+    
+    function stopSpinner(spinnerName) {
+        $("#" + spinnerName ).addClass("hidden");
+    }
+    
+</script>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modalErrorDialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content alert alert-danger" id="modalErrorContent">
+      <div class="modal-header alert alert-danger">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">Error</h2>
+      </div>
+      <div id="modalErrorTxt" >
+      	<h4/>
+      </div>   
+    </div>
+  </div>
+</div>
+
+<div class="container" id="main">
+	<div class="row">
+<div class="col-sm-4">
+	<div class="panel panel-default panelBg">
+		<div class="panel-thumbnail" style="padding-top: 5px">
+			<img  src="/assets/images/logoPremio.png" class="img-responsive gameImg" height="156" width="404" />
+		</div>
+		<div class="panel-body">
+		    <div class="row">
+		        <div class="text-center">
+		        	<h4>Mis n&uacute;meros</strong></h4>
+		        </div>
+	        </div>
+		    <div class="row" id="Premio-nrList" style="display:block!important;margin:auto auto;">
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="P" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="P" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="P" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="P" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="P" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="P" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="P" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="P" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="P" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="P" size="2"/>
+            
+		    </div>
+		    <div class="row">
+		        <div class="text-center">
+		            <h4>Fecha del sorteo</h4>
+		        </div>
+		    </div>
+		    <div class="row">
+		        <div class="col-xs-offset-1 col-xs-10">
+		            <div class="input-group date">
+		                <input type="text" class="form-control" id="Premio-date">
+		                    <span class="input-group-addon">
+		                        <i class="glyphicon glyphicon-th">
+		                        </i>
+		                    </span>
+		                </input>
+		            </div>
+		        </div>
+		    </div>
+		    <br/>
+		    <div class="row">
+		        <div class="form-group">
+		            <div class="col-xs-offset-3">
+		                <button type="button" class="btn btn-primary btn-large" id="Premio-submit" data-gameId="P">
+		                	<i id="Premio-spinner-r" class="fa fa-refresh fa-spin hidden"></i>
+		                    Buscar premio
+		                </button>
+		                <button type="button" class="btn btn-primary btn-large" id="Premio-previous">
+		                	<i id="Premio-spinner-prv" class="fa fa-refresh fa-spin hidden"></i>
+		                    Sorteos anteriores
+		                </button>
+		            </div>
+		        </div>
+		    </div>
+		    
+		</div>
+	</div>
+</div>
+<div class="col-sm-4">
+	<div class="panel panel-default panelBg">
+		<div class="panel-thumbnail" style="padding-top: 5px">
+			<img  src="/assets/images/logoElegi2.png" class="img-responsive gameImg" height="142" width="400" />
+		</div>
+		<div class="panel-body">
+		    <div class="row">
+		        <div class="text-center">
+		        	<h4>Mis n&uacute;meros</strong></h4>
+		        </div>
+	        </div>
+		    <div class="row" id="Elegi2-nrList" style="display:block!important;margin:auto auto;">
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="E" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="E" size="2"/>
+            
+		    </div>
+		    <div class="row">
+		        <div class="text-center">
+		            <h4>Fecha del sorteo</h4>
+		        </div>
+		    </div>
+		    <div class="row">
+		        <div class="col-xs-offset-1 col-xs-10">
+		            <div class="input-group date">
+		                <input type="text" class="form-control" id="Elegi2-date">
+		                    <span class="input-group-addon">
+		                        <i class="glyphicon glyphicon-th">
+		                        </i>
+		                    </span>
+		                </input>
+		            </div>
+		        </div>
+		    </div>
+		    <br/>
+		    <div class="row">
+		        <div class="form-group">
+		            <div class="col-xs-offset-3">
+		                <button type="button" class="btn btn-primary btn-large" id="Elegi2-submit" data-gameId="E">
+		                	<i id="Elegi2-spinner-r" class="fa fa-refresh fa-spin hidden"></i>
+		                    Buscar premio
+		                </button>
+		                <button type="button" class="btn btn-primary btn-large" id="Elegi2-previous">
+		                	<i id="Elegi2-spinner-prv" class="fa fa-refresh fa-spin hidden"></i>
+		                    Sorteos anteriores
+		                </button>
+		            </div>
+		        </div>
+		    </div>
+		    
+		</div>
+	</div>
+</div>
+<div class="col-sm-4">
+	<div class="panel panel-default panelBg">
+		<div class="panel-thumbnail" style="padding-top: 5px">
+			<img  src="/assets/images/logoSuper.png" class="img-responsive gameImg" height="156" width="200" />
+		</div>
+		<div class="panel-body">
+		    <div class="row">
+		        <div class="text-center">
+		        	<h4>Mis n&uacute;meros</strong></h4>
+		        </div>
+	        </div>
+		    <div class="row" id="SuperLotto-nrList" style="display:block!important;margin:auto auto;">
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="S" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="S" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="S" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="S" size="2"/>
+			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="S" size="2"/>
+			            <input type="text" class="form-control entryNumberWildCard"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="S" size="2"/>
+            
+		    </div>
+		    <div class="row">
+		        <div class="text-center">
+		            <h4>Fecha del sorteo</h4>
+		        </div>
+		    </div>
+		    <div class="row">
+		        <div class="col-xs-offset-1 col-xs-10">
+		            <div class="input-group date">
+		                <input type="text" class="form-control" id="SuperLotto-date">
+		                    <span class="input-group-addon">
+		                        <i class="glyphicon glyphicon-th">
+		                        </i>
+		                    </span>
+		                </input>
+		            </div>
+		        </div>
+		    </div>
+		    <br/>
+		    <div class="row">
+		        <div class="form-group">
+		            <div class="col-xs-offset-3">
+		                <button type="button" class="btn btn-primary btn-large" id="SuperLotto-submit" data-gameId="S">
+		                	<i id="SuperLotto-spinner-r" class="fa fa-refresh fa-spin hidden"></i>
+		                    Buscar premio
+		                </button>
+		                <button type="button" class="btn btn-primary btn-large" id="SuperLotto-previous">
+		                	<i id="SuperLotto-spinner-prv" class="fa fa-refresh fa-spin hidden"></i>
+		                    Sorteos anteriores
+		                </button>
+		            </div>
+		        </div>
+		    </div>
+		    
+		</div>
+	</div>
+</div>
+    </div>
+</div>  
+
+<div class="clearfix"></div>
+<hr>
+
+
+            	<footer class="footer">
+			<ul class="social-icons icon-circle icon-zoom list-unstyled list-inline"> 
+				<li><a href="#"><i class="fa fa-twitter"></i></a> </li> 
+				<li><a href="#"><i class="fa fa-facebook"></i></a> </li>   
+				<li><a href="#"><i class="fa fa-youtube"></i></a> </li> 
+				<li><a href="#"><i class="fa fa-rss"></i></a> </li>   
+		  	</ul>
+    	</footer>   
+    	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
+    
+<div id="sfwdt1839b8" class="sf-toolbar" style="display: none"></div><script>/*<![CDATA[*/    Sfjs = (function() {        "use strict";        var noop = function() {},            collectionToArray = function (collection) {                var length = collection.length || 0,                    results = new Array(length);                while (length--) {                    results[length] = collection[length];                }                return results;            },            profilerStorageKey = 'sf2/profiler/',            request = function(url, onSuccess, onError, payload, options) {                var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');                options = options || {};                options.maxTries = options.maxTries || 0;                xhr.open(options.method || 'GET', url, true);                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');                xhr.onreadystatechange = function(state) {                    if (4 !== xhr.readyState) {                        return null;                    }                    if (xhr.status == 404 && options.maxTries > 1) {                        setTimeout(function(){                            options.maxTries--;                            request(url, onSuccess, onError, payload, options);                        }, 500);                        return null;                    }                    if (200 === xhr.status) {                        (onSuccess || noop)(xhr);                    } else {                        (onError || noop)(xhr);                    }                };                xhr.send(payload || '');            },            hasClass = function(el, klass) {                return el.className && el.className.match(new RegExp('\\b' + klass + '\\b'));            },            removeClass = function(el, klass) {                if (el.className) {                    el.className = el.className.replace(new RegExp('\\b' + klass + '\\b'), ' ');                }            },            addClass = function(el, klass) {                if (!hasClass(el, klass)) {                    el.className += " " + klass;                }            },            getPreference = function(name) {                if (!window.localStorage) {                    return null;                }                return localStorage.getItem(profilerStorageKey + name);            },            setPreference = function(name, value) {                if (!window.localStorage) {                    return null;                }                localStorage.setItem(profilerStorageKey + name, value);            },            requestStack = [],            renderAjaxRequests = function() {                var requestCounter = document.querySelectorAll('.sf-toolbar-ajax-requests');                if (!requestCounter.length) {                    return;                }                var tbodies = document.querySelectorAll('.sf-toolbar-ajax-request-list');                var state = 'ok';                if (tbodies.length) {                    var tbody = tbodies[0];                    var rows = document.createDocumentFragment();                    if (requestStack.length) {                        for (var i = 0; i < requestStack.length; i++) {                            var request = requestStack[i];                            var row = document.createElement('tr');                            rows.appendChild(row);                            var methodCell = document.createElement('td');                            if (request.error) {                                methodCell.className = 'sf-ajax-request-error';                            }                            methodCell.textContent = request.method;                            row.appendChild(methodCell);                            var pathCell = document.createElement('td');                            pathCell.className = 'sf-ajax-request-url';                            if ('GET' === request.method) {                                var pathLink = document.createElement('a');                                pathLink.setAttribute('href', request.url);                                pathLink.textContent = request.url;                                pathCell.appendChild(pathLink);                            } else {                                pathCell.textContent = request.url;                            }                            pathCell.setAttribute('title', request.url);                            row.appendChild(pathCell);                            var durationCell = document.createElement('td');                            durationCell.className = 'sf-ajax-request-duration';                            if (request.duration) {                                durationCell.textContent = request.duration + "ms";                            } else {                                durationCell.textContent = '-';                            }                            row.appendChild(durationCell);                            row.appendChild(document.createTextNode(' '));                            var profilerCell = document.createElement('td');                            if (request.profilerUrl) {                                var profilerLink = document.createElement('a');                                profilerLink.setAttribute('href', request.profilerUrl);                                profilerLink.textContent = request.profile;                                profilerCell.appendChild(profilerLink);                            } else {                                profilerCell.textContent = 'n/a';                            }                            row.appendChild(profilerCell);                            var requestState = 'ok';                            if (request.error) {                                requestState = 'error';                                if (state != "loading" && i > requestStack.length - 4) {                                    state = 'error';                                }                            } else if (request.loading) {                                requestState = 'loading';                                state = 'loading';                            }                            row.className = 'sf-ajax-request sf-ajax-request-' + requestState;                        }                        var infoSpan = document.querySelectorAll(".sf-toolbar-ajax-info")[0];                        var children = collectionToArray(tbody.children);                        for (var i = 0; i < children.length; i++) {                            tbody.removeChild(children[i]);                        }                        tbody.appendChild(rows);                        if (infoSpan) {                            var text = requestStack.length + ' call' + (requestStack.length > 1 ? 's' : '');                            infoSpan.textContent = text;                        }                    } else {                        var cell = document.createElement('td');                        cell.setAttribute('colspan', '4');                        cell.textContent = "No AJAX requests yet.";                        var row = document.createElement('tr');                        row.appendChild(cell);                        tbody.appendChild(row);                    }                }                requestCounter[0].textContent = requestStack.length;                var className = 'sf-toolbar-ajax-requests sf-toolbar-status';                if (state == 'ok') {                    className += ' sf-toolbar-status-green';                } else if (state == 'error') {                    className += ' sf-toolbar-status-red';                } else {                    className += ' sf-ajax-request-loading';                }                requestCounter[0].className = className;            };        var addEventListener;        var el = document.createElement('div');        if (!'addEventListener' in el) {            addEventListener = function (element, eventName, callback) {                element.attachEvent('on' + eventName, callback);            };        } else {            addEventListener = function (element, eventName, callback) {                element.addEventListener(eventName, callback, false);            };        }                    if (window.XMLHttpRequest && XMLHttpRequest.prototype.addEventListener) {                var proxied = XMLHttpRequest.prototype.open;                XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {                    var self = this;                    /* prevent logging AJAX calls to static and inline files, like templates */                    var path = url;                    if (url.substr(0, 1) === '/') {                        if (0 === url.indexOf('')) {                            path = url.substr(0);                        }                    }                    else if (0 === url.indexOf('http\x3A\x2F\x2Flocalhost\x3A8000')) {                        path = url.substr(21);                    }                    if (path.substr(0, 1) === '/' && !path.match(new RegExp("^\/(app(_[\\w]+)?\\.php\/)?_wdt"))) {                        var stackElement = {                            loading: true,                            error: false,                            url: url,                            method: method,                            start: new Date()                        };                        requestStack.push(stackElement);                        this.addEventListener('readystatechange', function() {                            if (self.readyState == 4) {                                stackElement.duration = new Date() - stackElement.start;                                stackElement.loading = false;                                stackElement.error = self.status < 200 || self.status >= 400;                                stackElement.profile = self.getResponseHeader("X-Debug-Token");                                stackElement.profilerUrl = self.getResponseHeader("X-Debug-Token-Link");                                Sfjs.renderAjaxRequests();                            }                        }, false);                        Sfjs.renderAjaxRequests();                    }                    proxied.apply(this, Array.prototype.slice.call(arguments));                };            }                return {            hasClass: hasClass,            removeClass: removeClass,            addClass: addClass,            getPreference: getPreference,            setPreference: setPreference,            addEventListener: addEventListener,            request: request,            renderAjaxRequests: renderAjaxRequests,            load: function(selector, url, onSuccess, onError, options) {                var el = document.getElementById(selector);                if (el && el.getAttribute('data-sfurl') !== url) {                    request(                        url,                        function(xhr) {                            el.innerHTML = xhr.responseText;                            el.setAttribute('data-sfurl', url);                            removeClass(el, 'loading');                            (onSuccess || noop)(xhr, el);                        },                        function(xhr) { (onError || noop)(xhr, el); },                        '',                        options                    );                }                return this;            },            toggle: function(selector, elOn, elOff) {                var tmp = elOn.style.display,                    el = document.getElementById(selector);                elOn.style.display = elOff.style.display;                elOff.style.display = tmp;                if (el) {                    el.style.display = 'none' === tmp ? 'none' : 'block';                }                return this;            }        }    })();/*]]>*/</script><script>/*<![CDATA[*/    (function () {                Sfjs.load(            'sfwdt1839b8',            '/_wdt/1839b8',            function(xhr, el) {                el.style.display = -1 !== xhr.responseText.indexOf('sf-toolbarreset') ? 'block' : 'none';                if (el.style.display == 'none') {                    return;                }                if (Sfjs.getPreference('toolbar/displayState') == 'none') {                    document.getElementById('sfToolbarMainContent-1839b8').style.display = 'none';                    document.getElementById('sfToolbarClearer-1839b8').style.display = 'none';                    document.getElementById('sfMiniToolbar-1839b8').style.display = 'block';                } else {                    document.getElementById('sfToolbarMainContent-1839b8').style.display = 'block';                    document.getElementById('sfToolbarClearer-1839b8').style.display = 'block';                    document.getElementById('sfMiniToolbar-1839b8').style.display = 'none';                }                Sfjs.renderAjaxRequests();                /* Handle toolbar-info position */                var toolbarBlocks = document.querySelectorAll('.sf-toolbar-block');                for (var i = 0; i < toolbarBlocks.length; i += 1) {                    toolbarBlocks[i].onmouseover = function () {                        var toolbarInfo = this.querySelectorAll('.sf-toolbar-info')[0];                        var pageWidth = document.body.clientWidth;                        var elementWidth = toolbarInfo.offsetWidth;                        var leftValue = (elementWidth + this.offsetLeft) - pageWidth;                        var rightValue = (elementWidth + (pageWidth - this.offsetLeft)) - pageWidth;                        /* Reset right and left value, useful on window resize */                        toolbarInfo.style.right = '';                        toolbarInfo.style.left = '';                        if (leftValue > 0 && rightValue > 0) {                            toolbarInfo.style.right = (rightValue * -1) + 'px';                        } else if (leftValue < 0) {                            toolbarInfo.style.left = 0;                        } else {                            toolbarInfo.style.right = '-1px';                        }                    };                }            },            function(xhr) {                if (xhr.status !== 0) {                    confirm('An error occurred while loading the web debug toolbar (' + xhr.status + ': ' + xhr.statusText + ').\n\nDo you want to open the profiler?') && (window.location = '/_profiler/1839b8');                }            },            {'maxTries': 5}        );    })();/*]]>*/</script>
+</body>
+</html>
