@@ -9,9 +9,11 @@ namespace AppBundle\Util;
  */
 abstract class GameHelper {
 	
-	protected abstract function checkNrs($winningNr);
-	
 	protected abstract function getDivisionPrize($hits);
+
+	public abstract function getGameUI();
+	
+	public abstract function getGameId();
 	
 	public function getGameResults($gameId,$nDays,$guessNrArr) {
 		checkNr($guessNrArr);

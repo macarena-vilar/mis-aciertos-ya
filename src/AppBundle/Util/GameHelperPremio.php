@@ -5,6 +5,23 @@ namespace AppBundle\Util;
 use AppBundle\Util\GameHelper;
 
 class GameHelperPremio extends GameHelper {
+	public function getGameId() {
+		return "P";
+	}
+	
+	public function getGameUI() {
+		return array (
+				"gameId" => "P",
+				"gameName" => "Premio",
+				"gameLogo" => "/assets/images/logoPremio.png",
+				"gameNumbers" => 10,
+				"nrFormats" => array_fill(0,10,"entryNumberWhite"),
+				"inpOffset" => "",
+				"logoW" => 202 * 2,
+				"logoH" => 78 * 2 
+		);
+	}	
+	
 	protected function getDivisionPrize($hits) {
 		switch ($hits) {
 			case '0':

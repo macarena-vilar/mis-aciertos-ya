@@ -1,4 +1,4 @@
-<div class="col-sm-6">
+<div class="col-sm-4">
 	<div class="panel panel-default panelBg">
 		<div class="panel-thumbnail" style="padding-top: 5px">
 			<img  src="{{ gameLogo }}" class="img-responsive gameImg" height="{{ logoH }}" width="{{ logoW }}" />
@@ -10,8 +10,8 @@
 		        </div>
 	        </div>
 		    <div class="row" id="{{ gameName }}-nrList" style="display:block!important;margin:auto auto;">
-{% for i in 1..gameNumbers %}
-			            <input type="text" class="form-control entryNumberWhite"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="{{ gameId }}" size="2"/>
+{% for i in 0..gameNumbers-1 %}
+			            <input type="text" class="form-control {{ nrFormats[i] }}"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="{{ gameId }}" size="2"/>
 {% endfor %}            
 		    </div>
 		    <div class="row">
