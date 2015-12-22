@@ -3,96 +3,10 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#Premio-submit").click(function(evt){
-            loadPrizes("P","Premio");
-        });
-        $("#Elegi2-submit").click(function(evt){
-            loadPrizes("E","Elegi2");
-        });
-        $('.entryNumberWhite').keyup(function(){
-            this.value = this.value.replace(/[^0-9\.]/g,'');
-        });
-        $('.input-group.date').datepicker({
-            format: "dd/mm/yyyy",
-            todayBtn: "linked",
-            language: "es",
-            autoclose: true,
-            todayHighlight : true
-        });
-    });
-    
-    function loadPrizes(gameId,gameName) {
-        nrs = $("#" +gameName+"-nrList .entryNumberWhite"); 
-        spinnerName = gameName + "-spinner-r";  
-        tabName = gameName + "-tab-r";  
-        var guessNrArr = [];
-        for (i = 0; i < nrs.length; i++) {
-            var val = nrs[i].value;
-            if ( val == null || val == "" )
-                return modalError("Debe completar todos los números");
-            guessNrArr.push(nrs[i].value);
-        }
-        gameDate = $("#" + gameName + "-date" ).val();
-        if ( gameDate == null || gameDate  == "" )
-            return modalError("Debe completar la fecha");
-        startSpinner(spinnerName);
-        $.ajax({
-            url    : "/api/v1/hits/" + gameId + "/" + gameDate ,
-            data   : { "winningNr": guessNrArr},
-            method : "get"
-        }).done(function(data) {
-            if ( data == null || data.length == 0 )
-                return modalError("No hay datos para ese juego y esa fecha");
-            $("#" + tabName + " tbody").append(data);
-            $("#" + tabName + " tbody").append(data);
-            $("#" + tabName).removeClass("hidden");
-        }).fail(function(a,b,c) {
-			return modalError("No hay datos para ese juego y esa fecha");
-        }).always(function(){
-            stopSpinner(spinnerName);
-        });
-
-        
-    }
-
-    function modalError(txt) {
-    	$('#modalErrorTxt h4').text(txt); 
-    	$('#modalErrorDialog').modal('show'); 
-    }
-
-    function startSpinner(spinnerName) {
-        $("#" + spinnerName ).removeClass("hidden");
-    }
-    
-    function stopSpinner(spinnerName) {
-        $("#" + spinnerName ).addClass("hidden");
-    }
-    
-</script>
-
-<div class="modal fade" tabindex="-1" role="dialog" id="modalErrorDialog">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content alert alert-danger" id="modalErrorContent">
-      <div class="modal-header alert alert-danger">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h2 class="modal-title">Error</h2>
-      </div>
-      <div id="modalErrorTxt" >
-      	<h4/>
-      </div>   
-    </div>
-  </div>
-</div>
-
 <div class="container" id="main">
-	<div class="row">
 {% include 'AppBundle:Results:game.html.twig' with games["P"] %}
 {% include 'AppBundle:Results:game.html.twig' with games["E"] %}
 {% include 'AppBundle:Results:game.html.twig' with games["S"] %}
-    </div>
 </div>  
-
 
 {% endblock %}

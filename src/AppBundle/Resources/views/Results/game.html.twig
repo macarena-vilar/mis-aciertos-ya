@@ -1,52 +1,51 @@
 <div class="col-sm-4">
-	<div class="panel panel-default panelBg">
+	<div class="well">
 		<div class="panel-thumbnail" style="padding-top: 5px">
-			<img  src="{{ gameLogo }}" class="img-responsive gameImg" height="{{ logoH }}" width="{{ logoW }}" />
+			<img src="{{ gameLogo }}" class="img-responsive gameImg"
+				height="{{ logoH }}" width="{{ logoW }}" />
 		</div>
 		<div class="panel-body">
-		    <div class="row">
-		        <div class="text-center">
-		        	<h4>Mis n&uacute;meros</strong></h4>
-		        </div>
-	        </div>
-		    <div class="row" id="{{ gameName }}-nrList" style="display:block!important;margin:auto auto;">
+			<div class="row">
+				<div class="text-center">
+					<h4>
+						<strong>Mis n&uacute;meros</strong>
+					</h4>
+				</div>
+			</div>
+            <div class="row" id="{{ gameName }}-nrList" >
+                <div class="center-block" style="width:{{ gameNrWidth }}px;background-color:#ccc;">
 {% for i in 0..gameNumbers-1 %}
-			            <input type="text" class="form-control {{ nrFormats[i] }}"  tyle="position: relative;display:block!important;margin:0 auto;" maxlength="2" id="nr[]" data-game="{{ gameId }}" size="2"/>
-{% endfor %}            
-		    </div>
-		    <div class="row">
-		        <div class="text-center">
-		            <h4>Fecha del sorteo</h4>
-		        </div>
-		    </div>
-		    <div class="row">
-		        <div class="col-xs-offset-1 col-xs-10">
-		            <div class="input-group date">
-		                <input type="text" class="form-control" id="{{ gameName }}-date">
-		                    <span class="input-group-addon">
-		                        <i class="glyphicon glyphicon-th">
-		                        </i>
-		                    </span>
-		                </input>
-		            </div>
-		        </div>
-		    </div>
-		    <br/>
-		    <div class="row">
-		        <div class="form-group">
-		            <div class="col-xs-offset-3">
-		                <button type="button" class="btn btn-primary btn-large" id="{{gameName}}-submit" data-gameId="{{ gameId }}">
-		                	<i id="{{ gameName }}-spinner-r" class="fa fa-refresh fa-spin hidden"></i>
-		                    Buscar premio
-		                </button>
-		                <button type="button" class="btn btn-primary btn-large" id="{{gameName}}-previous">
-		                	<i id="{{ gameName }}-spinner-prv" class="fa fa-refresh fa-spin hidden"></i>
-		                    Sorteos anteriores
-		                </button>
-		            </div>
-		        </div>
-		    </div>
-		    
+					<input type="text" class="entryNumber {{ nrFormats[i] }}"  maxlength="2" id="nr[]" data-game="P" size="2"/>
+{% endfor %}					
+                  </div>
+            </div>
+			<div class="row">
+				<div class="text-center">
+					<h4>
+						<strong>Fecha del sorteo</strong>
+					</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-offset-1">
+					<div class="input-group date">
+						<input type="text" class="form-control" id="Premio-date"> <span
+							class="input-group-addon"> <i class="glyphicon glyphicon-th"> </i>
+						</span> </input>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<button type="button" class="btn btn-raised btn-primary"
+						id="SuperLotto-submit" data-gameId="S">Ver premio</button>
+				</div>
+				<div class="col-sm-6">
+					<button type="button" class="btn btn-raised btn-primary"
+						id="SuperLotto-previous">Sorteos Ant.</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

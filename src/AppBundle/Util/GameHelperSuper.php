@@ -19,6 +19,7 @@ class GameHelperSuper extends GameHelper {
 				"nrFormats" => array_merge(array_fill(0,5,"entryNumberWhite"),
 						                   array_fill(5,1,"entryNumberWildCard")),
 				"inpOffset" => "",
+				"gameNrWidth" => 300,				
 				"logoW" => 100 * 2,
 				"logoH" => 78 * 2
 		);

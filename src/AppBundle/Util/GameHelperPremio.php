@@ -17,6 +17,7 @@ class GameHelperPremio extends GameHelper {
 				"gameNumbers" => 10,
 				"nrFormats" => array_fill(0,10,"entryNumberWhite"),
 				"inpOffset" => "",
+				"gameNrWidth" => 250,				
 				"logoW" => 202 * 2,
 				"logoH" => 78 * 2 
 		);

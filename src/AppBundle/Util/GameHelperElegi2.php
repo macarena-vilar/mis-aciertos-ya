@@ -17,6 +17,7 @@ class GameHelperElegi2 extends GameHelper {
 				"gameNumbers" => 2,
 				"nrFormats" => array_fill(0,2,"entryNumberWhite"),
 				"inpOffset" => "",
+				"gameNrWidth" => 100,				
 				"logoW" => 200 * 2,
 				"logoH" => 71 * 2 
 		);
