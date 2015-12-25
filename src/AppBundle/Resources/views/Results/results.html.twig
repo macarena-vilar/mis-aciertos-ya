@@ -8,5 +8,41 @@
 {% include 'AppBundle:Results:game.html.twig' with games["E"] %}
 {% include 'AppBundle:Results:game.html.twig' with games["S"] %}
 </div>  
-
+<script type="text/javascript">
+function startWait(){
+	
+}
+function stopWait(){
+	
+}
+function prizeClick(gameId) {
+	  gameDate = $("#" + gameId + "-date")[0].value;	  
+	  if ( gameDate == null || gameDate == "" ) {
+		  bootbox.alert( "Debe completar la fecha del sorteo");
+		  return;
+	  }
+	  nrList = $("input[data-game='" + gameId + "']");
+	  winningNr = new Array();
+	  for ( i=0 ; i<nrList.length ; i++ ) {
+		  val = nrList[i].value;
+		  winningNr.push(val); 
+		  if ( val == null || val == "" ) {
+			  bootbox.alert( "Debe completar todos los n&uacute;meros");
+			  return;
+		  }
+	  }
+	  startWait();
+	  $.ajax({
+		  url: "api/v1/hits/" + gameId + "/" + gameDate,
+		  data: { "winningNr" : winningNr},
+	      timeout: 3000 // 3 seconds
+	  }).done(function(data) {
+		  alert(data);
+	  }).fail(function() {
+		  bootbox.alert( "Momentaneamente, los datos no est&aacute;n disponibles");
+	  }).always(function() {
+		  stopWait();
+	  });
+}
+</script>
 {% endblock %}

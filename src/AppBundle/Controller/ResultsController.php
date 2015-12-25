@@ -17,6 +17,14 @@ class ResultsController extends FOSRestController
      */
     public function getHitsAction($gameId,$gameD,$gameM,$gameY) {
     	$winArr = $this->getRequest()->get("winningNr");
+		$repo = $this->getDoctrine()
+					 ->getRepository('AppBundle:FspInpHeader');
+    	$gameDate = "$gameY-$gameM-$gameD";
+    	print_r($repo->findGamesByDate($gameId,$gameDate));
+    	$retVal = array("gameId"=>$gameId,"winArr"=>$winArr,"gameDate"=>$gameDate);
+    	return new Response(json_encode($retVal));
+    	/*
+    	$winArr = $this->getRequest()->get("winningNr");
     	
 		$repo = $this->getDoctrine()
 					 ->getRepository('AppBundle:Fsp_Games');
@@ -26,14 +34,14 @@ class ResultsController extends FOSRestController
 		             ->setTemplate("AppBundle:Results:game-results.html.twig")
 		             ->setTemplateVar("results");
 		
-		/*$serializedEntity = $this->container
+		$serializedEntity = $this->container
 		                         ->get('serializer')
 		                         ->serialize($data, 'json');
 		
 		return new Response($serializedEntity);
 		*/
 		  
-		return $this->handleView($view);
+		//return $this->handleView($view);
     }
     
     /**

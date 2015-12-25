@@ -1,0 +1,21 @@
+AppBundle\Entity\FspInpHeader:
+    type: entity
+    table: fsp_inp_header
+    repositoryClass: AppBundle\Entity\FspInpHeaderRepository
+    id:
+        gameid:
+            type: string
+            nullable: true
+            length: 1
+            options:
+                fixed: false
+        drawnr:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+    fields:
+        drawdate:
+            type: date
+            nullable: true
+    lifecycleCallbacks: {  }

@@ -1,0 +1,32 @@
+AppBundle\Entity\FspMockup:
+    type: entity
+    table: fsp_mockup
+    repositoryClass: AppBundle\Entity\FspMockupRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        gameid:
+            type: string
+            nullable: true
+            length: 1
+            options:
+                fixed: false
+        drawnr:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+        jsontxt:
+            type: string
+            nullable: true
+            length: 4096
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }
