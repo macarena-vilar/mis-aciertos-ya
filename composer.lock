@@ -4,9 +4,58 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0c2acf0be3dcf46c87a459c21ead7aaf",
-    "content-hash": "d65429bed8e3b3cee72b0f95beebbbe4",
+    "hash": "ce13a1c4a79c1c7ae0bd49340c1be483",
+    "content-hash": "404ca09fa5ea9f251a35f8f3d7391374",
     "packages": [
+        {
+            "name": "ci/restclientbundle",
+            "version": "0.3.1",
+            "target-dir": "Ci/RestClientBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CircleOfNice/CiRestClientBundle.git",
+                "reference": "9dcd1241e05b0bb1a007fefaacae815c60638de1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CircleOfNice/CiRestClientBundle/zipball/9dcd1241e05b0bb1a007fefaacae815c60638de1",
+                "reference": "9dcd1241e05b0bb1a007fefaacae815c60638de1",
+                "shasum": ""
+            },
+            "require-dev": {
+                "php": ">=5.4",
+                "symfony/config": ">=2.1",
+                "symfony/dependency-injection": ">=2.1",
+                "symfony/http-kernel": ">=2.1",
+                "symfony/yaml": ">=2.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Ci\\RestClientBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL"
+            ],
+            "authors": [
+                {
+                    "name": "Circle.ai",
+                    "email": "info@circle.ai"
+                }
+            ],
+            "description": "Provides REST request methods. Mapper bundle for php internal curl library",
+            "keywords": [
+                "REST client curl POST GET PUT DELETE OPTIONS CONNECT PATCH TRACE HEAD content-type payload library plugin"
+            ],
+            "time": "2015-12-09 12:56:52"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.2.7",
@@ -782,7 +831,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/aae3daf9d2909eb3d98f19d94ba34fdf231d2f85",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/9d332c5051d1302d602de5f0db0ba29c63437364",
                 "reference": "aae3daf9d2909eb3d98f19d94ba34fdf231d2f85",
                 "shasum": ""
             },
@@ -1403,7 +1452,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/97707ea5f438622ce31ab836e1d78bb70bfe101d",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/1ae2cfa9a50279d722d6b6e7b02322cef948d55d",
                 "reference": "97707ea5f438622ce31ab836e1d78bb70bfe101d",
                 "shasum": ""
             },

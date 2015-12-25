@@ -31,4 +31,30 @@ class GameHelperElegi2 extends GameHelper {
 		else
 			return 0;
 	}	
+	
+	public function getGameName() {
+		return "ELEGIDOS";
+	}
+	
+	
+	public function initFromJson($jsonTxt) {
+		$data = json_decode($jsonTxt);
+		$matches = array();
+		preg_match_all("/ [AB]:(\d\d)/",$data->text,$matches);
+		$this->nrList = array(
+			$matches[1][0],
+			$matches[1][1],
+		);
+		
+		preg_match_all( "/Match\s+(\d)\s+(\d+)\s+(\d+)/",
+					    preg_replace("/\./","",$data->text),
+				        $matches);
+		
+		$this->divList = array(
+				$matches[3][0],
+				$matches[3][1],
+		);
+				
+	}
+	
 }

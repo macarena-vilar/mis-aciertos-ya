@@ -10,4 +10,4 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: 5123b989c703feede2dfae0386d7c9142df6b576
-    rest.url: mockup
+    winnerInfo.rest.url: http://localhost:8000/api/v2/WINNER_INFORMATION 

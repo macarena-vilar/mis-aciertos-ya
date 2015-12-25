@@ -32,4 +32,13 @@ class GameHelperSuper extends GameHelper {
 		else
 			return 0;
 	}	
+	
+	public function getGameName() {
+		return "SUPERLOTTO";
+	}
+	
+	public function initFromJson($jsonTxt) {
+		
+	}
+	
 }

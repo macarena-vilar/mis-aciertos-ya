@@ -13,7 +13,7 @@
 				</div>
 			</div>
             <div class="row" id="{{ gameName }}-nrList" >
-                <div class="center-block" style="width:{{ gameNrWidth }}px;background-color:#ccc;">
+                <div class="center-block" style="max-width:{{ gameNrWidth }}px;background-color:#ccc;">
 {% for i in 0..gameNumbers-1 %}
 					<input type="text" 
 					       class="entryNumber {{ nrFormats[i] }}"  
@@ -45,7 +45,7 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<button type="button" 
-					        class="btn btn-raised btn-primary"
+					        class="btn btn-raised btn-primary btn-lg"
 						    id="{{ gameName }}-submit" 
 						    data-gameId="{{ gameId }}"
 						    onClick="prizeClick('{{ gameId }}')">

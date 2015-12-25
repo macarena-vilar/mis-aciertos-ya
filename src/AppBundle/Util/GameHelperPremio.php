@@ -50,4 +50,31 @@ class GameHelperPremio extends GameHelper {
 				break;
 		}
 	}	
+	
+	public function getGameName() {
+		return "PREMIO";
+	}
+	
+	public function initFromJson($jsonTxt) {
+		$data = json_decode($jsonTxt);
+		$matches = array();
+		$pcre = "/" . str_repeat("(\d\d)-",9) . "(\d\d)/";
+		preg_match_all("$pcre",$data->text,$matches);
+		$this->nrList = array();
+		for ( $i=1 ; $i<=10 ; $i++ ){
+			$this->nrList[] = $matches[$i][0];						
+		}
+		
+		print_r($this->nrList);
+		
+		/*preg_match_all( "/Match\s+(\d)\s+(\d+)\s+(\d+)/",
+				preg_replace("/\./","",$data->text),
+				$matches);
+		
+		$this->divList = array(
+				$matches[3][0],
+				$matches[3][1],
+		);	*/
+	}
+	
 }

@@ -27,4 +27,17 @@ class GameFactory {
 		}
 		return $retVal;
 	}
+	
+	public static function newGameInstance($gameId) {
+		// Forced!
+		// In a new incarnation, must be dynamic
+		if ( $gameId === "E" )
+			return new GameHelperElegi2();
+		if ( $gameId === "P" )
+			return new GameHelperPremio();
+		if ( $gameId === "S" )
+			return new GameHelperSuper();
+		
+		return null;
+	}
 }

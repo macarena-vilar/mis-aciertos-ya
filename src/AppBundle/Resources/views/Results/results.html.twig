@@ -3,6 +3,24 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+<div id="game-results" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body center-block" style="max-width: 800px">
+		<div class="whirly-loader">
+  			Loading…
+		</div>      
+	  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="container" id="main">
 {% include 'AppBundle:Results:game.html.twig' with games["P"] %}
 {% include 'AppBundle:Results:game.html.twig' with games["E"] %}
@@ -10,7 +28,7 @@
 </div>  
 <script type="text/javascript">
 function startWait(){
-	
+	$("#game-results").modal();
 }
 function stopWait(){
 	
@@ -22,15 +40,24 @@ function prizeClick(gameId) {
 		  return;
 	  }
 	  nrList = $("input[data-game='" + gameId + "']");
-	  winningNr = new Array();
+	  winningNr = new Array();	  
 	  for ( i=0 ; i<nrList.length ; i++ ) {
-		  val = nrList[i].value;
+		  val = parseInt(nrList[i].value);
 		  winningNr.push(val); 
-		  if ( val == null || val == "" ) {
+		  if ( val == null || val == "" || isNaN(val) ) {
 			  bootbox.alert( "Debe completar todos los n&uacute;meros");
 			  return;
 		  }
 	  }
+
+	  n = winningNr.length;
+	  winningNr = jQuery.unique(winningNr);
+	  if ( n > winningNr.length) {
+		bootbox.alert( "No puede ingresar n&uacute;meros repetidos");
+	 	return;
+	  }
+
+	  
 	  startWait();
 	  $.ajax({
 		  url: "api/v1/hits/" + gameId + "/" + gameDate,
