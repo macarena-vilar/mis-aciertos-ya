@@ -22,6 +22,15 @@ class GameHelperElegi2 extends GameHelper {
 				"logoH" => 71 * 2 
 		);
 	}
+	
+	public function getPrize($hits) {
+		$prizeStr = " ";
+		if ($hits == 2)
+			$prizeStr = "Gs " . number_format($this->divList[0],0,",",".") . " (2 aciertos)";
+		if ($hits == 1)
+			$prizeStr = "Gs " . number_format($this->divList[1],0,",",".") . " (1 acierto)";
+		return $prizeStr; 
+	}
 		
 	protected function getDivisionPrize($hits) {
 		if ( $hits == 2 )

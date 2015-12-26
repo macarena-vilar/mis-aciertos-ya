@@ -31,22 +31,30 @@ abstract class GameHelper {
 				$hits++;
 				$result[] = array (
 						"nr"    => $nr,
-						"class" => "Hit",
+						"hit"   => 1,
 				);
 			} else {
 				$result[] = array (
 						"nr"    => $nr,
-						"class" => "NoHit",
+						"hit"   => 0,
 				);			
 			}
 		}
 		
 		return array(
 			"hits"   => $hits,
-			"prize"  => $this->getDivisionPrize($hits),
+			"prize"  => $this->getPrize($hits),
 			"nrList" => $result,
 		);
 	}
 	
+	public function setDivList($divList) {
+		$this->divList = $divList;
+	}
+	
+	public function getPrize($hits) {
+		print_r($this->divList);
+		return $this->getDivisionPrize($hits);
+	}
 	
 }

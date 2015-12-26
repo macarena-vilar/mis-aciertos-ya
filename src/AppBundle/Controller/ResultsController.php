@@ -16,23 +16,32 @@ class ResultsController extends FOSRestController
     	$winArr = $this->getRequest()->get("winningNr");
 		$repo = $this->getDoctrine()
 					 ->getRepository('AppBundle:FspInpHeader');
+		$divRepo = $this->getDoctrine()
+					    ->getRepository('AppBundle:FspOutDivisions');
     	$gameDate = "$gameY-$gameM-$gameD";
     	$gameList = $repo->findGamesByDate($gameId,$gameDate);
+    	if ( $gameList == null || count($gameList) == 0 )
+    		throw new \Exception("Sin datos disponibles");
+    	
     	$game = GameFactory::newGameInstance($gameId);
     	
     	$restClient = $this->container->get('ci.restclient');
     	$urlBase = $this->container->getParameter("winnerInfo.rest.url");
     	$rowList = array();
-    	foreach ( $gameList as $gameD ) {
-    		$url = $urlBase . "?game-name=" . $game->getGameName() . "&draw=$gameD";
+    	foreach ( $gameList as $gameNr ) {
+    		$url = $urlBase . "?game-name=" . $game->getGameName() . "&draw=$gameNr";
     		$game->initFromJson($restClient->get($url)->getContent());
-    		$rowList[] = $game->getGameResults($winArr);
+    		//$game->setDivList($divRepo->getDivList($gameId,$gameNr));
+    		$rowList[] = array(
+    				     "drawNr"   => $gameNr,
+    				     "gameHits" => $game->getGameResults($winArr));
     	}
-    	
-    	print_r($rowList);
-    	
-    	$retVal = array("gameId"=>$gameId,"winArr"=>$winArr,"gameDate"=>$gameDate);
-    	return new Response(json_encode($retVal));
 
+    	$data = array(
+			"gameDate" => "$gameD/$gameM/$gameY",
+    		"rowList"  => $rowList
+    	);
+    	
+    	return $this->render ( 'AppBundle:Results:game-results.html.twig', $data );    	 
     }
 }

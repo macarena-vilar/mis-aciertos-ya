@@ -17,6 +17,12 @@ body {
   
 }
 
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
 .entryNumber{
     height: 48px;
     width: 48px;
@@ -32,11 +38,12 @@ body {
 }
 
 .entryNumberNoHit {
-    background: #1A5C7A none repeat scroll 0% 0%;
+    background: #1A5C7A none repeat scroll 0% 0%; 
+    opacity: 0.2;   
 }
 
 .entryNumberHit {
-    background: red none repeat scroll 0% 0%;
+    background: red none repeat scroll 0% 0%;    
 }
 
 .entryNumberWhite {

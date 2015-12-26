@@ -3,24 +3,12 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-<div id="game-results" class="modal fade">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body center-block" style="max-width: 800px">
-		<div class="whirly-loader">
-  			Loading…
-		</div>      
-	  </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+<style type="text/css">
+.largeWidth {
+	width: 800px;
+    margin: 0 auto;
+}
+</style>
 <div class="container" id="main">
 {% include 'AppBundle:Results:game.html.twig' with games["P"] %}
 {% include 'AppBundle:Results:game.html.twig' with games["E"] %}
@@ -28,7 +16,7 @@
 </div>  
 <script type="text/javascript">
 function startWait(){
-	$("#game-results").modal();
+	//$("#game-results").modal();
 }
 function stopWait(){
 	
@@ -64,9 +52,12 @@ function prizeClick(gameId) {
 		  data: { "winningNr" : winningNr},
 	      timeout: 3000 // 3 seconds
 	  }).done(function(data) {
-		  alert(data);
+		  bootbox
+		  	.alert(data)
+		  	.find("div.modal-dialog")
+		  	.addClass("largeWidth");;
 	  }).fail(function() {
-		  bootbox.alert( "Momentaneamente, los datos no est&aacute;n disponibles");
+		  bootbox.alert( "No hatos datos disponibles para esa fecha");
 	  }).always(function() {
 		  stopWait();
 	  });

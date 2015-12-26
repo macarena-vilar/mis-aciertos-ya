@@ -23,6 +23,34 @@ class GameHelperPremio extends GameHelper {
 		);
 	}	
 	
+	public function getPrize($hits) {
+		if ( $hits == 0 )
+			return "";
+		$prizeStr = "";
+		switch ($hits) {
+		case '0':
+		case '10':
+			$prizeStr = "Primer premio Gs " . number_format($this->divList[0],0,",",".");
+			break;
+		case '1':
+		case '9':
+			$prizeStr = "Segundo premio Gs " . number_format($this->divList[1],0,",",".");
+			break;
+		case '2':
+		case '8':
+			$prizeStr = "Tercer premio Gs " . number_format($this->divList[2],0,",",".");
+			break;
+		case '3':
+		case '7':
+			$prizeStr = "Cuarto premio Gs " . number_format($this->divList[3],0,",",".");
+			break;
+		}
+						
+		$prizeStr .= " ($hits aciertos)";
+		return $prizeStr;
+	}
+	
+	
 	protected function getDivisionPrize($hits) {
 		switch ($hits) {
 			case '0':
@@ -64,17 +92,17 @@ class GameHelperPremio extends GameHelper {
 		for ( $i=1 ; $i<=10 ; $i++ ){
 			$this->nrList[] = $matches[$i][0];						
 		}
-		
-		print_r($this->nrList);
-		
-		/*preg_match_all( "/Match\s+(\d)\s+(\d+)\s+(\d+)/",
+				
+		preg_match_all( "/Gs (\d+)/",
 				preg_replace("/\./","",$data->text),
 				$matches);
 		
 		$this->divList = array(
-				$matches[3][0],
-				$matches[3][1],
-		);	*/
+				$matches[1][3],
+				$matches[1][0],
+				$matches[1][1],
+				$matches[1][2],
+		);	
 	}
 	
 }

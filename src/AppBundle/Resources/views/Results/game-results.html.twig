@@ -1,18 +1,33 @@
-{% for r in results %}
-<tr>
-	<td>
-	<div class="row">
-		<span class='entryNumberText'>
-			Sorteo {{ r.drawNr }}
-		</span>
-	</div
-	<div class="row">
-{% for wNr in r.winArr %}
-		<span class='entryNumber{{  wNr.hit== 0 ? 'No' }}Hit'>
-			{{ wNr.winningNr }}
-		</span>		
-{% endfor %}
+<div class="row">
+	<div class="col-xs-10">
+		<table class="table table-striped">
+			<tr>
+				<td colspan="3">
+					<h3>
+						<strong>Sorteos del d&iacute;a {{ gameDate }}</strong>
+					</h3>
+				</td>
+			</tr>
+			{% for r in rowList %}
+			<tr class="vcenter">
+				<td>
+					<span class='entryNumberText'> 
+					<h4><strong>Sorteo Nro. {{ r.drawNr }}</strong></h4> 
+					</span>
+				</td>
+				<td>{% for gH in r.gameHits["nrList"] %}
+						<span class='entryNumber entryNumber{{ gH["hit"]== 0 ? 'No' }}Hit'>
+					 		{{gH["nr"] }} 
+						</span>
+					{% endfor %}
+				</td>
+				<td>
+					<span class='entryNumberText'> 
+						<h4><strong>{{ r.gameHits["prize"] }}</strong></h4> 
+					</span>
+				</td>
+			</tr>
+			{% endfor %}
+		</table>
 	</div>
-	</td>
-</tr>
-{% endfor %}
+</div>
