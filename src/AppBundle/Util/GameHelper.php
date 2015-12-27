@@ -26,8 +26,12 @@ abstract class GameHelper {
 	public function getGameResults($winNrArr) {
 		$result = array();
 		$hits = 0;
+		/*
 		foreach( $winNrArr as $nr ) {
 			if ( array_search($nr, $this->nrList) !== false ) {
+		*/
+		foreach( $this->nrList as $nr ) {
+			if ( array_search($nr, $winNrArr) !== false ) {
 				$hits++;
 				$result[] = array (
 						"nr"    => $nr,

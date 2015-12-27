@@ -24,7 +24,7 @@ class GameHelperElegi2 extends GameHelper {
 	}
 	
 	public function getPrize($hits) {
-		$prizeStr = " ";
+		$prizeStr = "Sin aciertos";
 		if ($hits == 2)
 			$prizeStr = "Gs " . number_format($this->divList[0],0,",",".") . " (2 aciertos)";
 		if ($hits == 1)
@@ -43,8 +43,7 @@ class GameHelperElegi2 extends GameHelper {
 	
 	public function getGameName() {
 		return "ELEGIDOS";
-	}
-	
+	}	
 	
 	public function initFromJson($jsonTxt) {
 		$data = json_decode($jsonTxt);

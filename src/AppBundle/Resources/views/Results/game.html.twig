@@ -1,8 +1,8 @@
-<div class="col-sm-4">
+<div class="col-sm-4 {{ offset }}">
 	<div class="well">
 		<div class="panel-thumbnail" style="padding-top: 5px">
-			<img src="{{ gameLogo }}" class="img-responsive gameImg"
-				height="{{ logoH }}" width="{{ logoW }}" />
+			<img src="{{ game.gameLogo }}" class="img-responsive gameImg"
+				height="{{ game.logoH }}" width="{{ game.logoW }}" />
 		</div>
 		<div class="panel-body">
 			<div class="row">
@@ -12,13 +12,13 @@
 					</h4>
 				</div>
 			</div>
-            <div class="row" id="{{ gameName }}-nrList" >
-                <div class="center-block" style="max-width:{{ gameNrWidth }}px;background-color:#ccc;">
-{% for i in 0..gameNumbers-1 %}
+            <div class="row" id="{{ game.gameName }}-nrList" >
+                <div class="center-block" style="max-width:{{ game.gameNrWidth }}px;background-color:#ccc;">
+{% for i in 0..game.gameNumbers-1 %}
 					<input type="text" 
-					       class="entryNumber {{ nrFormats[i] }}"  
+					       class="entryNumber {{ game.nrFormats[i] }}"  
 					       maxlength="2" id="nr[]"
-					       data-game="{{ gameId }}" 
+					       data-game="{{ game.gameId }}" 
 					       size="2"/>
 {% endfor %}					
                   </div>
@@ -33,7 +33,7 @@
 			<div class="row">
 				<div class="col-xs-offset-1">
 					<div class="input-group date">
-						<input type="text" class="form-control" id="{{ gameId }}-date"> 
+						<input type="text" class="form-control" id="{{ game.gameId }}-date"> 
 							<span class="input-group-addon"> 
 								<i class="glyphicon glyphicon-th"> </i>
 							</span> 
@@ -46,9 +46,9 @@
 				<div class="col-sm-6">
 					<button type="button" 
 					        class="btn btn-raised btn-primary btn-lg"
-						    id="{{ gameName }}-submit" 
-						    data-gameId="{{ gameId }}"
-						    onClick="prizeClick('{{ gameId }}')">
+						    id="{{ game.gameName }}-submit" 
+						    data-gameId="{{ game.gameId }}"
+						    onClick="prizeClick('{{ game.gameId }}')">
 						Ver premio
 					</button>
 				</div>

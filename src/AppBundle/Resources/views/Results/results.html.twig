@@ -10,9 +10,10 @@
 }
 </style>
 <div class="container" id="main">
-{% include 'AppBundle:Results:game.html.twig' with games["P"] %}
-{% include 'AppBundle:Results:game.html.twig' with games["E"] %}
-{% include 'AppBundle:Results:game.html.twig' with games["S"] %}
+{% for gameId,game in games %}
+{% set vars = {"game" : game , "offset" : offset[loop.index0] } %}
+{% include 'AppBundle:Results:game.html.twig' with vars %}
+{% endfor %}
 </div>  
 <script type="text/javascript">
 function startWait(){

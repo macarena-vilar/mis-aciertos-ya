@@ -24,8 +24,6 @@ class GameHelperPremio extends GameHelper {
 	}	
 	
 	public function getPrize($hits) {
-		if ( $hits == 0 )
-			return "";
 		$prizeStr = "";
 		switch ($hits) {
 		case '0':
@@ -46,7 +44,10 @@ class GameHelperPremio extends GameHelper {
 			break;
 		}
 						
-		$prizeStr .= " ($hits aciertos)";
+		$prizeStr .= " ($hits acierto";
+		if ( $hits != 1 ) 
+			$prizeStr .= "s";
+		$prizeStr .= ")";
 		return $prizeStr;
 	}
 	

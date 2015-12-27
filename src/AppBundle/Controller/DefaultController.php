@@ -14,16 +14,24 @@ class DefaultController extends Controller {
 	 */
 	public function indexAction(Request $request) {
 		$divs = array (
-				"games" => GameFactory::getGameUIList () 
+				"games"   => GameFactory::getGameUIList (),
+				"offset"  => array( "","",""),
 		);
 		return $this->render ( 'AppBundle:Results:results.html.twig', $divs );
 	}
     
     /**
-     * @Route("/test/{gameId}", name="testpage")
+     * @Route("/{gameName}")
      */
-    public function testAction(Request $request,$gameId="E") {
-    	return $this->render('AppBundle:Results:modal.html.twig',array("gameId"=>$gameId));
+    public function gameAction(Request $request,$gameName) {
+    	if ( ($game=GameFactory::newGameInstanceByName($gameName)) == null )
+    		return $this->redirectToRoute('homepage');
+    	$divs = array (
+    				"games"   => array ( $game->getGameId() => $game->getGameUI() ),
+				    "offset"  => array( "col-xs-offset-4" ),
+    	);
+    		
+    	return $this->render('AppBundle:Results:results.html.twig',$divs);
     }
     
     
