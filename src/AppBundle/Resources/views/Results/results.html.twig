@@ -58,7 +58,7 @@ function prizeClick(gameId) {
 		  	.find("div.modal-dialog")
 		  	.addClass("largeWidth");;
 	  }).fail(function() {
-		  bootbox.alert( "No hatos datos disponibles para esa fecha");
+		  bootbox.alert( "No hay datos disponibles para esa fecha");
 	  }).always(function() {
 		  stopWait();
 	  });
