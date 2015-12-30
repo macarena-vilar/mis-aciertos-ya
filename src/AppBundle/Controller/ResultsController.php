@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\Route;
-use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Util\GameFactory;
 
 class ResultsController extends FOSRestController
@@ -16,9 +15,6 @@ class ResultsController extends FOSRestController
     	$winArr = $this->getRequest()->get("winningNr");
 		$repo = $this->getDoctrine()
 					 ->getRepository('AppBundle:FspInpHeader');
-		$divRepo = $this->getDoctrine()
-					    ->getRepository('AppBundle:FspOutDivisions');
-
     	$gameDate = "$gameY-$gameM-$gameD";
     	$gameList = $repo->findGamesByDate($gameId,$gameDate);
     	if ( $gameList == null || count($gameList) == 0 )
@@ -29,7 +25,7 @@ class ResultsController extends FOSRestController
     	$restClient = $this->container->get('ci.restclient');
     	$urlBase = $this->container->getParameter("winnerInfo.rest.url");
     	$rowList =[];
-    	$headers = [CURLOPT_HTTPHEADER=>$this->container->getParameter("rest.headers")];
+    	$headers = [CURLOPT_HTTPHEADER => $this->container->getParameter("rest.headers")];
     	foreach ( $gameList as $gameNr ) {
     		$url = $urlBase . "?game-name=" . $game->getGameName() . "&draw=$gameNr";
     		$game->initFromJson($restClient->get($url,$headers)->getContent());

@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Util\GameFactory;
 
 class DefaultController extends Controller {
@@ -16,6 +15,7 @@ class DefaultController extends Controller {
 		$divs = array (
 				"games"   => GameFactory::getGameUIList (),
 				"offset"  => array( "","",""),
+				"social"  => $this->container->getParameter("social.icons"),
 		);
 		return $this->render ( 'AppBundle:Results:results.html.twig', $divs );
 	}
@@ -29,6 +29,7 @@ class DefaultController extends Controller {
     	$divs = array (
     				"games"   => array ( $game->getGameId() => $game->getGameUI() ),
 				    "offset"  => array( "col-xs-offset-4" ),
+					"social"  => $this->container->getParameter("social.icons"),
     	);
     		
     	return $this->render('AppBundle:Results:results.html.twig',$divs);

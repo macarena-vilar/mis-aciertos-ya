@@ -31,13 +31,12 @@
     	<footer class="footer section section-primary">
     		<div class="container">
 				<ul class="social-icons icon-circle icon-zoom list-unstyled list-inline"> 
-					<li><a href="#"><i class="fa fa-twitter"></i></a> </li> 
-					<li><a href="#"><i class="fa fa-facebook"></i></a> </li>   
-					<li><a href="#"><i class="fa fa-youtube"></i></a> </li> 
-					<li><a href="#"><i class="fa fa-rss"></i></a> </li>   
+        {% for icon,url in social %}
+					<li><a href="{{ url }}"><i class="fa fa-{{ icon }}"></i></a> </li> 
+    	{% endfor %}
 			  	</ul>
 		  	</div>
-    	</footer>   
+    	</footer>
 	    <script src="{{ asset('assets/js/jquery.min.js') }}" type="text/javascript"></script>
 	    <script src="{{ asset('assets/js/ripples.min.js') }}" type="text/javascript"></script>
 	    <script src="{{ asset('assets/js/material.min.js') }}" type="text/javascript"></script>
