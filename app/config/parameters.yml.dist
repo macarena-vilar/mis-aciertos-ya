@@ -11,3 +11,7 @@ parameters:
     mailer_password: null
     secret: 5123b989c703feede2dfae0386d7c9142df6b576
     winnerInfo.rest.url: http://localhost:8000/api/v2/WINNER_INFORMATION 
+    rest.headers:
+        - 'x-originator-id: 100,10,1,10010'
+        - 'x-request-id: 42,1386790641'
+        - 'x-session-id: 3,30001,1'

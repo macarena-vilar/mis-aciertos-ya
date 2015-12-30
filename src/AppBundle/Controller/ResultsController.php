@@ -18,6 +18,7 @@ class ResultsController extends FOSRestController
 					 ->getRepository('AppBundle:FspInpHeader');
 		$divRepo = $this->getDoctrine()
 					    ->getRepository('AppBundle:FspOutDivisions');
+
     	$gameDate = "$gameY-$gameM-$gameD";
     	$gameList = $repo->findGamesByDate($gameId,$gameDate);
     	if ( $gameList == null || count($gameList) == 0 )
@@ -27,11 +28,11 @@ class ResultsController extends FOSRestController
     	
     	$restClient = $this->container->get('ci.restclient');
     	$urlBase = $this->container->getParameter("winnerInfo.rest.url");
-    	$rowList = array();
+    	$rowList =[];
+    	$headers = [CURLOPT_HTTPHEADER=>$this->container->getParameter("rest.headers")];
     	foreach ( $gameList as $gameNr ) {
     		$url = $urlBase . "?game-name=" . $game->getGameName() . "&draw=$gameNr";
-    		$game->initFromJson($restClient->get($url)->getContent());
-    		//$game->setDivList($divRepo->getDivList($gameId,$gameNr));
+    		$game->initFromJson($restClient->get($url,$headers)->getContent());
     		$rowList[] = array(
     				     "drawNr"   => $gameNr,
     				     "gameHits" => $game->getGameResults($winArr));
