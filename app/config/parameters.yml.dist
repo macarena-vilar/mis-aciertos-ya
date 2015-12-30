@@ -15,3 +15,7 @@ parameters:
         - 'x-originator-id: 100,10,1,10010'
         - 'x-request-id: 42,1386790641'
         - 'x-session-id: 3,30001,1'
+    social.icons:
+          twitter: '#' 
+          facebook: '#' 
+          youtube: '#' 
