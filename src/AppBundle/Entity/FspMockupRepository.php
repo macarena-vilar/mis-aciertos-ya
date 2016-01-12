@@ -20,6 +20,8 @@ class FspMockupRepository extends \Doctrine\ORM\EntityRepository
 		              ->setParameter ( "gameid", $gameId )
 		              ->setParameter ( "drawnr", $drawNr );
         $data = $query->getResult();
+        if (count($data) == 0 )
+        	return '{"status":"REJECTED","rejectReason":"INFORMATION_NOT_AVAILABLE"}';
         return $data[0]->getJsontxt();
 	}
 }

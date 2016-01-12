@@ -21,15 +21,19 @@ abstract class GameHelper {
 	
 	public abstract function getGameName();
 	
-	public abstract function initFromJson($jsonTxt);		
+	public abstract function initFromJson($jsonTxt);	
+
+	public function refreshFromWS() {
+		return false;
+	}	
+
+	public function getMinStart() {
+		return 1;
+	}
 	
 	public function getGameResults($winNrArr) {
 		$result = array();
 		$hits = 0;
-		/*
-		foreach( $winNrArr as $nr ) {
-			if ( array_search($nr, $this->nrList) !== false ) {
-		*/
 		foreach( $this->nrList as $nr ) {
 			if ( array_search($nr, $winNrArr) !== false ) {
 				$hits++;
@@ -59,6 +63,29 @@ abstract class GameHelper {
 	public function getPrize($hits) {
 		print_r($this->divList);
 		return $this->getDivisionPrize($hits);
+	}
+
+	public function findGamesByDate($repo,$date){
+		return $repo->findGamesByDate($this->getGameId(),$date);
+	}
+
+	public function loadFromWS($gameList,$restClient,$urlBase,$headers,$winArr,$gameDate){
+
+    	$rowList =[];
+    	foreach ( $gameList as $gameNr ) {
+    		$url = $urlBase . "?game-name=" . $this->getGameName() . "&draw=$gameNr";
+    		$this->initFromJson($restClient->get($url,$headers)->getContent());
+    		$rowList[] = array(
+    				     "drawNr"   => $gameNr,
+    				     "gameHits" => $this->getGameResults($winArr));
+    	}
+
+    	$data = array(
+			"gameDate" => $gameDate,
+    		"rowList"  => $rowList
+    	);
+
+    	return $data;
 	}
 	
 }

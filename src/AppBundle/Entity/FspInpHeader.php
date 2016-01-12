@@ -31,7 +31,7 @@ class FspInpHeader
     private $drawnr;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
      * @ORM\Column(name="drawdate", type="date", nullable=true)
      */

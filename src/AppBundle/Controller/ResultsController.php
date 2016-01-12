@@ -13,15 +13,18 @@ class ResultsController extends FOSRestController
      */
     public function getHitsAction($gameId,$gameD,$gameM,$gameY) {
     	$winArr = $this->getRequest()->get("winningNr");
+        /*
 		$repo = $this->getDoctrine()
 					 ->getRepository('AppBundle:FspInpHeader');
-    	$gameDate = "$gameY-$gameM-$gameD";
-    	$gameList = $repo->findGamesByDate($gameId,$gameDate);
-    	if ( $gameList == null || count($gameList) == 0 )
-    		throw new \Exception("Sin datos disponibles");
+    	*/
+        $gameFactory = $this->container->get("gameFactory");
+        $gameDate = "$gameY-$gameM-$gameD";
+        $gameList = $gameFactory->findGamesByDate($gameId,$gameDate);
+        if ( $gameList == null || count($gameList) == 0 )
+            throw new \Exception("Sin datos disponibles");
+
     	
-    	$game = GameFactory::newGameInstance($gameId);
-    	
+        /*
     	$restClient = $this->container->get('ci.restclient');
     	$urlBase = $this->container->getParameter("winnerInfo.rest.url");
     	$rowList =[];
@@ -34,11 +37,16 @@ class ResultsController extends FOSRestController
     				     "gameHits" => $game->getGameResults($winArr));
     	}
 
+
+
     	$data = array(
 			"gameDate" => "$gameD/$gameM/$gameY",
     		"rowList"  => $rowList
     	);
-    	
+    	*/
+/*
+        $data  = $game->loadFromWS($gameList,$restClient,$urlBase,$headers,$winArr,"$gameD/$gameM/$gameY");
+        */
     	return $this->render ( 'AppBundle:Results:game-results.html.twig', $data );    	 
     }
 }
