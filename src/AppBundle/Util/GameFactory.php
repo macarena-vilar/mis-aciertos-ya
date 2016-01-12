@@ -77,7 +77,8 @@ class GameFactory {
         return $restClient->get($url,$headers)->getContent();
     }
 
-    private $itLimit  = 7;
+    // 2 weeks without data
+    private $itLimit  = 14;
 
     public function findGamesByDate($gameId,$gameDate) {
         $game = GameFactory::newGameInstance($gameId);
@@ -109,5 +110,13 @@ class GameFactory {
         return $gameList;
     }
 
+    public function getGameResults($gameId,$drawNr,$winArr) {
+        $game = GameFactory::newGameInstance($gameId);
+        $jsonData = $this->loadFromWS($gameId,$drawNr);
+		$game->initFromJson($jsonData);		
+		return array(
+		     "drawNr"   => $drawNr,
+		     "gameHits" => $game->getGameResults($winArr));
+    }
 
 }

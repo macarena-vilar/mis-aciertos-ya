@@ -61,7 +61,6 @@ abstract class GameHelper {
 	}
 	
 	public function getPrize($hits) {
-		print_r($this->divList);
 		return $this->getDivisionPrize($hits);
 	}
 
@@ -86,6 +85,10 @@ abstract class GameHelper {
     	);
 
     	return $data;
+	}
+
+	protected function moneyFormat($val){
+		return "Gs " . number_format($val,0,",",".");
 	}
 	
 }

@@ -65,4 +65,31 @@ class GameHelperElegi2 extends GameHelper {
 				
 	}
 	
+	public function getGameResults($winNrArr) {
+		$result = array();
+		$hits = 0;
+		for ( $i=0 ; $i < count($winNrArr) ; $i++ ){
+			if ( $winNrArr[$i] == $this->nrList[$i] ) {
+				$hits++;
+				$result[] = array (
+						"nr"    => $this->nrList[$i],
+						"hit"   => 1,
+				);
+			} else {
+				$result[] = array (
+						"nr"    => $this->nrList[$i],
+						"hit"   => 0,
+				);			
+			}			
+		}
+		
+		return array(
+			"hits"   => $hits,
+			"prize"  => $this->getPrize($hits),
+			"nrList" => $result,
+		);
+	}
+
+
+
 }
