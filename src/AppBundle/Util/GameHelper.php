@@ -91,4 +91,28 @@ abstract class GameHelper {
 		return "Gs " . number_format($val,0,",",".");
 	}
 	
+	public function basicInitFromJson($jsonTxt) {
+		$data = json_decode($jsonTxt);
+		if ( $data->status == "REJECTED" )
+			return null;
+
+		$pcreFN ="/FECHA:(\d\d\/\d\d\/\d\d\d\d) SORTEO #(\d+)/";
+		preg_match_all($pcreFN,$data->text,$matches);
+		$drawDate = \DateTime::createFromFormat("d/m/Y H:i:s",$matches[1][0] . "00:00:00");
+
+		$retVal = ["drawNr"=> $matches[2][0], "drawDate"=>$drawDate];
+
+		return $retVal;
+
+	}
+
+	protected function getLimitDays() {
+		return 30;
+	}
+
+	public function isExpired($date){
+		$from = new \DateTime($date);
+		$today = new \DateTime("today");
+		return $from->diff($today)->days > $this->getLimitDays();
+	}
 }

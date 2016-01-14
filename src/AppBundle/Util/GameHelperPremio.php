@@ -19,7 +19,8 @@ class GameHelperPremio extends GameHelper {
 				"inpOffset" => "",
 				"gameNrWidth" => 250,				
 				"logoW" => 202 * 2,
-				"logoH" => 78 * 2 
+				"logoH" => 78 * 2 ,
+				"prizeExpiration" => 30,
 		);
 	}	
 	
@@ -82,6 +83,10 @@ class GameHelperPremio extends GameHelper {
 	
 	public function getGameName() {
 		return "PREMIO";
+	}
+	
+	public function getMinStart() {
+		return 128;
 	}
 	
 	public function initFromJson($jsonTxt) {

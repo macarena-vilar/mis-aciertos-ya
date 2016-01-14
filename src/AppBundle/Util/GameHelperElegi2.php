@@ -19,7 +19,9 @@ class GameHelperElegi2 extends GameHelper {
 				"inpOffset" => "",
 				"gameNrWidth" => 100,				
 				"logoW" => 200 * 2,
-				"logoH" => 71 * 2 
+				"logoH" => 71 * 2 ,
+				"prizeExpiration" => 90,
+
 		);
 	}
 	
@@ -44,7 +46,11 @@ class GameHelperElegi2 extends GameHelper {
 	public function getGameName() {
 		return "ELEGIDOS";
 	}	
-	
+
+	public function getMinStart() {
+		return 1042;
+	}
+
 	public function initFromJson($jsonTxt) {
 		$data = json_decode($jsonTxt);
 		$matches = array();

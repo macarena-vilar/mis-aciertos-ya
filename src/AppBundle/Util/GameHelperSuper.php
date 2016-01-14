@@ -21,7 +21,8 @@ class GameHelperSuper extends GameHelper {
 				"inpOffset" => "",
 				"gameNrWidth" => 300,				
 				"logoW" => 100 * 2,
-				"logoH" => 78 * 2
+				"logoH" => 78 * 2,
+				"prizeExpiration" => 90,
 		);
 	}	
 
@@ -38,21 +39,6 @@ class GameHelperSuper extends GameHelper {
 
 	public function getMinStart() {
 		return 465;
-	}
-
-	public function basicInitFromJson($jsonTxt) {
-		$data = json_decode($jsonTxt);
-		if ( $data->status == "REJECTED" )
-			return null;
-
-		$pcreFN ="/FECHA:(\d\d\/\d\d\/\d\d\d\d) SORTEO #(\d+)/";
-		preg_match_all($pcreFN,$data->text,$matches);
-		$drawDate = \DateTime::createFromFormat("d/m/Y H:i:s",$matches[1][0] . "00:00:00");
-
-		$retVal = ["drawNr"=> $matches[2][0], "drawDate"=>$drawDate];
-
-		return $retVal;
-
 	}
 
 	protected $wildCard;
@@ -164,6 +150,10 @@ class GameHelperSuper extends GameHelper {
 			"prize"  => $this->getSLPrize($hits,$wildCard),
 			"nrList" => $result,
 		);
+	}
+
+	protected function getLimitDays() {
+		return 90;
 	}
 
 }

@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FspInpHeader
+ * TblGamesByDate
  *
- * @ORM\Table(name="fsp_inp_header")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\FspInpHeaderRepository")
+ * @ORM\Table(name="tbl_games_by_date")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\TblGamesByDateRepository")
  */
-class FspInpHeader
+class TblGamesByDate
 {
     /**
      * @var string
@@ -44,7 +44,7 @@ class FspInpHeader
      *
      * @param string $gameid
      *
-     * @return FspInpHeader
+     * @return TblGamesByDate
      */
     public function setGameid($gameid)
     {
@@ -68,7 +68,7 @@ class FspInpHeader
      *
      * @param integer $drawnr
      *
-     * @return FspInpHeader
+     * @return TblGamesByDate
      */
     public function setDrawnr($drawnr)
     {
@@ -92,7 +92,7 @@ class FspInpHeader
      *
      * @param \DateTime $drawdate
      *
-     * @return FspInpHeader
+     * @return TblGamesByDate
      */
     public function setDrawdate($drawdate)
     {

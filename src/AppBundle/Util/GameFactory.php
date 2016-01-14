@@ -82,10 +82,12 @@ class GameFactory {
 
     public function findGamesByDate($gameId,$gameDate) {
         $game = GameFactory::newGameInstance($gameId);
-        $repo = $this->em->getRepository('AppBundle:FspInpHeader');
+        if ( $game->isExpired($gameDate) )
+        	return "Lo siento, los premios de esa fecha ya han expirado";
+        $repo = $this->em->getRepository('AppBundle:TblGamesByDate');
         $gameList = $repo->findGamesByDate($gameId, $gameDate);
 
-        if ( count($gameList)==0 && $game->refreshFromWS() ) {
+        if ( count($gameList)==0 ) {
 	    	$startN = $repo->getLastGame($gameId)+1;
 	    	if ( $startN <= $game->getMinStart() )
 	    		$startN = $game->getMinStart();
@@ -94,8 +96,10 @@ class GameFactory {
         	while( true ) {
         		$jsData = $this->loadFromWS($gameId,$startN);
 
-    			if ( ($gameData = $game->basicInitFromJson($jsData)) !== null )
+    			if ( ($gameData = $game->basicInitFromJson($jsData)) !== null ) {    				
     				$repo->newHeader($gameId,$gameData["drawNr"],$gameData["drawDate"]);
+    				$i = 0;
+    			}
     			else 
     				$it++;
 

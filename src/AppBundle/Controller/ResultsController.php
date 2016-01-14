@@ -18,6 +18,11 @@ class ResultsController extends FOSRestController
 
         $gameFactory = $this->container->get("gameFactory");
         $gameList = $gameFactory->findGamesByDate($gameId,$gameDate);
+        if ( $gameList != null && !is_array($gameList) ) {
+            // It's an error/warning message
+            $data = array ( "msg" => $gameList );
+            return $this->render ( 'AppBundle:Results:float-msg.html.twig', $data );      
+        }
         if ( $gameList == null || count($gameList) == 0 )
             throw new \Exception("Sin datos disponibles");
 

@@ -1,7 +1,7 @@
-AppBundle\Entity\FspInpHeader:
+AppBundle\Entity\TblGamesByDate:
     type: entity
-    table: fsp_inp_header
-    repositoryClass: AppBundle\Entity\FspInpHeaderRepository
+    table: tbl_games_by_date
+    repositoryClass: AppBundle\Entity\TblGamesByDateRepository
     id:
         gameid:
             type: string
