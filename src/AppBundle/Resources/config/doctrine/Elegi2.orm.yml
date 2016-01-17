@@ -1,0 +1,3 @@
+AppBundle\Entity\Elegi2:
+    type: entity
+    lifecycleCallbacks: {  }

@@ -5,7 +5,7 @@
 {% block body %}
 <style type="text/css">
 .largeWidth {
-	width: 800px;
+	width: 90%;
     margin: 0 auto;
 }
 </style>
@@ -16,19 +16,68 @@
 {% endfor %}
 </div>  
 <script type="text/javascript">
+var spinOpts = {
+	lines: 13, // The number of lines to draw
+	length: 11, // The length of each line
+	width: 5, // The line thickness
+	radius: 17, // The radius of the inner circle
+	corners: 1, // Corner roundness (0..1)
+	rotate: 0, // The rotation offset
+	color: '#FFF', // #rgb or #rrggbb
+	speed: 1, // Rounds per second
+	trail: 60, // Afterglow percentage
+	shadow: false, // Whether to render a shadow
+	hwaccel: false, // Whether to use hardware acceleration
+	className: 'spinner', // The CSS class to assign to the spinner
+	zIndex: 2e9, // The z-index (defaults to 2000000000)
+	top: '50%', // Top position relative to parent in px
+	left: '50%' // Left position relative to parent in px
+};
+
+var spinnerOverlay = null;
+
 function startWait(){
-	//$("#game-results").modal();
+	if ( spinnerOverlay == null ) {
+		var target = document.createElement("div");
+		document.body.appendChild(target);
+		var spinner = new Spinner(spinOpts).spin(target);
+		spinnerOverlay = iosOverlay({
+			spinner: spinner
+		});
+	}
 }
+
 function stopWait(){
-	
+	if ( spinnerOverlay != null ){
+		spinnerOverlay.hide();
+		spinnerOverlay = null;
+	}
 }
+
+function prizeClear(gameId) {
+	nrList = $("input[data-game='" + gameId + "']");
+	nrList.val('');
+	nrList = $("input[data-gamefilter='" + gameId + "']");
+	nrList.val('');
+}
+
 function prizeClick(gameId) {
-	  gameDate = $("#" + gameId + "-date")[0].value;	  
-	  if ( gameDate == null || gameDate == "" ) {
-		  bootbox.alert( "Debe completar la fecha del sorteo");
+	  gameDate = $("#" + gameId + "-date")[0].value.trim();	  
+	  gameNr = $("#" + gameId + "-nr")[0].value.trim();
+	  if ( (gameDate == null || gameDate == "") && 
+	  	   (gameNr == null || gameNr == "")) {
+		  bootbox.alert( "Debe completar la fecha o el n&uacute;mero del sorteo");
 		  return;
 	  }
+
+	  if ( (gameDate != null && gameDate != "") && 
+	  	   (gameNr != null && gameNr != "")) {
+		  bootbox.alert( "Debe elegir la fecha o el n&uacute;mero del sorteo (solo uno de los dos)");
+		  return;
+	  }
+
 	  nrList = $("input[data-game='" + gameId + "']");
+
 	  winningNr = new Array();	  
 	  for ( i=0 ; i<nrList.length ; i++ ) {
 		  val = parseInt(nrList[i].value);
@@ -50,20 +99,37 @@ function prizeClick(gameId) {
       */
 	  
 	  startWait();
-	  $.ajax({
-		  url: "api/v1/hits/" + gameId + "/" + gameDate,
-		  data: { "winningNr" : winningNr},
-	      timeout: 3000 // 3 seconds
-	  }).done(function(data) {
-		  bootbox
-		  	.alert(data)
-		  	.find("div.modal-dialog")
-		  	.addClass("largeWidth");;
-	  }).fail(function(a,b,c) {
-		  bootbox.alert( "No hay datos disponibles para esa fecha");
-	  }).always(function() {
-		  stopWait();
-	  });
+	  if ( (gameDate != null && gameDate != "") ){
+		  $.ajax({
+			  url: "api/v1/hits/" + gameId + "/" + gameDate,
+			  data: { "winningNr" : winningNr},
+		      timeout: 30000 // 30 seconds
+		  }).done(function(data) {
+			  bootbox
+			  	.alert({
+			  		"size":"large",
+			  	 	"message": data});
+		  }).fail(function(a,b,c) {
+			  bootbox.alert( "No hay datos disponibles para esa fecha");
+		  }).always(function() {
+			  stopWait();
+		  });
+	  } else {
+		  $.ajax({
+			  url: "api/v1/hits/" + gameId + "/" + gameNr,
+			  data: { "winningNr" : winningNr},
+		      timeout: 30000 // 30 seconds
+		  }).done(function(data) {
+			  bootbox
+			  	.alert(data)
+			  	.find("div.modal-dialog")
+			  	.addClass("largeWidth");;
+		  }).fail(function(a,b,c) {
+			  bootbox.alert( "No hay datos disponibles para esa fecha");
+		  }).always(function() {
+			  stopWait();
+		  });
+	  }
 }
 </script>
 {% endblock %}

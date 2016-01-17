@@ -1,0 +1,41 @@
+AppBundle\Entity\TblGames:
+    type: entity
+    table: tbl_games
+    oneToMany:
+        numbers:
+            targetEntity: TblGamesNr
+            mappedBy: game
+        prizes:
+            targetEntity: TblGamesPr
+            mappedBy: game
+    inheritanceType: SINGLE_TABLE
+    discriminatorColumn:
+        name: gameid
+        type: string
+        length: 1
+        options:
+            fixed: false
+    discriminatorMap:
+        E: Elegi2
+        P: Premio
+        S: SuperLotto
+    repositoryClass: AppBundle\Entity\TblGamesRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        drawnr:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+        drawdate:
+            type: date
+            nullable: false
+    lifecycleCallbacks: {  }

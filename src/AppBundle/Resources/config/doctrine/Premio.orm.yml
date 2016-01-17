@@ -1,0 +1,4 @@
+AppBundle\Entity\Premio:
+    type: entity
+    table: tbl_games
+    lifecycleCallbacks: {  }
