@@ -32,7 +32,7 @@ class TblGamesNr
     /**
      * @var \AppBundle\Entity\TblGames
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TblGames", inversedBy="numbers")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TblGames", inversedBy="numbers", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_master", referencedColumnName="id")
      * })

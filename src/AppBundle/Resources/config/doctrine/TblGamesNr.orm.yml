@@ -24,6 +24,7 @@ AppBundle\Entity\TblGamesNr:
         idMaster:
             targetEntity: TblGames
             inversedBy: numbers
+            cascade: ["persist"]
             joinColumns:
                 id_master:
                     referencedColumnName: id

@@ -30,17 +30,61 @@ class TblGamesRepository extends \Doctrine\ORM\EntityRepository {
 	}
 
 
-
-    public function getGamesByDate($gameId,$gameDate) {
+    public function getGamesByDate($gameId,$gameDate=null) {
 
         $game = $this->newGameInstance($gameId);
         $lastGame = $game->getLastGame();
 
-        if ( $gameDate > $lastGame["drawdate"] ) {
-            //$this->loadGamesByDateFromWS($gameId,$gameDate);
+        if ( $gameDate == null || $gameDate > $lastGame["drawdate"] ) {
+            $this->loadGamesByDateFromWS($game,$gameDate,$game->getMinStart($lastGame["drawnr"]));
         }
 
-        return $game->getGamesByDate($gameDate);
+        if ($gameDate !=null )
+        	return $game->getGamesByDate($gameDate);
+        else 
+        	return null;
+
+    }
+
+
+   	private function loadFromWS($gameId,$drawNr){
+        $game = GameFactory::newGameInstance($gameId);
+    }
+
+
+    public function loadGamesByDateFromWS($game,$gameDate,$start) {
+
+    	global $kernel;
+		if($kernel instanceOf \AppCache) 
+			$kernel = $kernel->getKernel();
+
+        $restClient = $kernel->getContainer()->get('ci.restclient');
+
+        $urlBase = $kernel->getContainer()->getParameter("winnerInfo.rest.url");
+        $headers = [CURLOPT_HTTPHEADER => $kernel->getContainer()->getParameter("rest.headers")];
+
+        $emptyIt = 0;
+        while ( true ){
+			$url = $urlBase . "?game-name=" . $game->getGameName() . "&draw=$start";
+
+			$data =  $restClient->get($url,$headers)->getContent();
+			$newGame = clone $game;
+
+			if ( $newGame->initFromJson($data) ) {
+				$newGame->saveData();
+        		$emptyIt = 0;
+			} else {
+				$emptyIt++;
+			}
+
+			if ( $emptyIt >= $game->getMaxEmptyItList() )
+				break;
+
+			$start ++;
+
+        }
+
+        $this->getEntityManager()->flush();
 
     }
 

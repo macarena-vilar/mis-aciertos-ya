@@ -41,7 +41,7 @@ class DefaultController extends Controller {
     protected function testAction(Request $request) {
 	    $repo = $this->getDoctrine()->getRepository('AppBundle:TblGames');
 
-	    var_dump($repo->getGamesByDate("E","2014-01-01"));
+	    $repo->getGamesByDate("S","2015-12-17");
 
     }
     

@@ -118,21 +118,19 @@ abstract class TblGames
      *
      * @return TblGames
      */
-    public function addNumber(\AppBundle\Entity\TblGamesNr $number)
-    {
+    public function addNumber(\AppBundle\Entity\TblGamesNr $number) {    
         $this->numbers[] = $number;
 
         return $this;
     }
 
-    /**
-     * Remove number
-     *
-     * @param \AppBundle\Entity\TblGamesNr $number
-     */
-    public function removeNumber(\AppBundle\Entity\TblGamesNr $number)
-    {
-        $this->numbers->removeElement($number);
+    public function newNumber($nr) {
+        
+        $recNr = new \AppBundle\Entity\TblGamesNr();
+        $recNr->setIdMaster($this);
+        $recNr->setNr($nr);
+        $this->addNumber($recNr);
+
     }
 
     /**
@@ -159,15 +157,13 @@ abstract class TblGames
         return $this;
     }
 
-    /**
-     * Remove prize
-     *
-     * @param \AppBundle\Entity\TblGamesPr $prize
-     */
-    public function removePrize(\AppBundle\Entity\TblGamesPr $prize)
-    {
-        $this->prizes->removeElement($prize);
+    public function newPrize($pr) {
+        $recPr = new \AppBundle\Entity\TblGamesPr();
+        $recPr->setIdMaster($this);
+        $recPr->setPrize($pr);
+        $this->addPrize($recPr);
     }
+
 
     /**
      * Get prizes
@@ -188,6 +184,8 @@ abstract class TblGames
         $this->numbers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->prizes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->em = $em;
+
+        $this->initData();
     }
 
     public function getLastGame() {
@@ -245,11 +243,44 @@ abstract class TblGames
         $drawDate = \DateTime::createFromFormat("d/m/Y H:i:s",$matches[1][0] . "00:00:00");
 
         $this->setDrawnr($matches[2][0]);
-        $this->drawDate($drawDate);
+        $this->setDrawDate($drawDate);
 
-        $this->loadFromJson($data);
+        try {
+            $this->loadFromJson($data);  
+            return true;
+        } catch ( \Exception $ex ) {
+            echo "Exception->" . $ex->getMessage() . "\n";
+            return false;
+        }
 
     }
 
     public abstract function loadFromJson($data);
+
+    protected function initData() {
+        // Nothing
+    }
+
+    protected $minStart;
+
+    public function getMinStart($start) {
+        return $start > $this->minStart ? $start : $this->minStart;
+    }
+
+    protected $maxEmptyItList = 14;
+
+    public function getMaxEmptyItList() {
+        return $this->maxEmptyItList;        
+    }
+
+    public function saveData() {
+        foreach ($this->getNumbers() as $nr) {
+            $this->em->persist($nr);
+        }
+        foreach ($this->getPrizes() as $pr) {
+            $this->em->persist($pr);
+        }
+        $this->em->persist($this);
+    }
+
 }

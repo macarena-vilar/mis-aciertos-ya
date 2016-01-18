@@ -1,4 +1,4 @@
-drop table tbl_games_pr;
+﻿drop table tbl_games_pr;
 drop table tbl_games_nr;
 drop table tbl_games;
 
@@ -28,7 +28,7 @@ CREATE TABLE tbl_games_pr
 (
   id serial not null,
   id_master int not null,
-  prize int not null,
+  prize bigint not null,
   CONSTRAINT tbl_games_pr_pk PRIMARY KEY (id)
 );
 
@@ -38,9 +38,10 @@ ALTER TABLE tbl_games_pr
 
   
 
+/*
 insert into tbl_games (gameid,drawnr,drawdate) values('E',1,'2014-01-01');
 insert into tbl_games (gameid,drawnr,drawdate) values('E',2,'2014-01-01');
-
+*/
 
 
 GRANT ALL ON TABLE tbl_games TO public;
@@ -48,5 +49,9 @@ GRANT ALL ON TABLE tbl_games_nr TO public;
 GRANT ALL ON TABLE tbl_games_pr TO public;
 
 
-
-// Agregar los índices!!
+CREATE INDEX tbl_games_ix1
+   ON tbl_games (gameid ASC NULLS LAST, drawnr ASC NULLS LAST);
+   
+CREATE INDEX tbl_games_ix2
+   ON tbl_games (gameid ASC NULLS LAST, drawdate ASC NULLS LAST);
+   

@@ -23,10 +23,8 @@ AppBundle\Entity\TblGamesPr:
     manyToOne:
         idMaster:
             targetEntity: TblGames
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
+            inversedBy: prizes
+            cascade: ["persist"]
             joinColumns:
                 id_master:
                     referencedColumnName: id
