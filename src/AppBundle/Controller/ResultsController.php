@@ -14,8 +14,9 @@ class ResultsController extends FOSRestController
      */
     public function getHitsAction(Request $request,$gameId,$gameD,$gameM,$gameY) {
 
-        $winArr = $request->get("winningNr");
+        $winArr   = $request->get("winningNr");
         $gameDate = "$gameY-$gameM-$gameD";
+        $gameBet  = $request->get("bet");
 
         $repo = $this->getDoctrine()->getRepository('AppBundle:TblGames');
 
@@ -34,7 +35,7 @@ class ResultsController extends FOSRestController
     	foreach ( $gameList as $game ) {
             $rowList[] = array( 
                 "drawNr"   => $game->getDrawNr(),
-                "gameHits" => $game->getResults($winArr),
+                "gameHits" => $game->getResults($winArr,$gameBet),
             );
             //$rowList[] = //$gameFactory->getGameResults($gameId,$drawNr,$winArr);
     	}

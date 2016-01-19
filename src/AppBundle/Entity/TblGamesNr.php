@@ -98,4 +98,5 @@ class TblGamesNr
     {
         return $this->idMaster;
     }
+
 }

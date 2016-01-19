@@ -63,7 +63,9 @@ function prizeClear(gameId) {
 
 function prizeClick(gameId) {
 	  gameDate = $("#" + gameId + "-date")[0].value.trim();	  
-	  gameNr = $("#" + gameId + "-nr")[0].value.trim();
+	  gameNr   = $("#" + gameId + "-nr")[0].value.trim();
+	  gameBetS = $("#" + gameId + "-bet")[0].value.trim();
+
 	  if ( (gameDate == null || gameDate == "") && 
 	  	   (gameNr == null || gameNr == "")) {
 		  bootbox.alert( "Debe completar la fecha o el n&uacute;mero del sorteo");
@@ -73,6 +75,17 @@ function prizeClick(gameId) {
 	  if ( (gameDate != null && gameDate != "") && 
 	  	   (gameNr != null && gameNr != "")) {
 		  bootbox.alert( "Debe elegir la fecha o el n&uacute;mero del sorteo (solo uno de los dos)");
+		  return;
+	  }
+
+	  if ( (gameBetS == null || gameBetS == "") ) {
+		  bootbox.alert( "Debe ingresar el monto de la apuesta");
+		  return;
+	  }
+
+	  gameBet = parseInt(gameBetS);
+	  if ( gameBet == null || gameBet == "" || isNaN(gameBet) ) {
+		  bootbox.alert( "El monto de la apuesta debe ser num&eacute;rico");
 		  return;
 	  }
 
@@ -102,7 +115,7 @@ function prizeClick(gameId) {
 	  if ( (gameDate != null && gameDate != "") ){
 		  $.ajax({
 			  url: "api/v1/hits/" + gameId + "/" + gameDate,
-			  data: { "winningNr" : winningNr},
+			  data: { "winningNr" : winningNr , "bet" : gameBet },
 		      timeout: 30000 // 30 seconds
 		  }).done(function(data) {
 			  bootbox

@@ -50,11 +50,19 @@
 						       data-gamefilter="{{ game.gameId }}"
 						       placeholder="N&uacute;mero de sorteo"/>
 						{% if game.askForBet %}
-							<input type="text" 
+							<div class="input-group">
+								<input type="text" 
+								       class="form-control" 
+								       id="{{ game.gameId }}-bet"
+								       data-gamefilter="{{ game.gameId }}"
+								       placeholder="Monto de la apuesta"/>
+								<span class="input-group-addon">Gs</span>
+							</div>
+						{% else %}
+							<input type="hidden" 
 							       class="form-control" 
 							       id="{{ game.gameId }}-bet"
-							       data-gamefilter="{{ game.gameId }}"
-							       placeholder="Monto de la apuesta"/>
+							       value="1"/>
 						{% endif %}
 					</div>
 				</form>

@@ -192,7 +192,7 @@ abstract class TblGames
 
     public abstract function getGameUI();
 
-    public abstract function getResults($winArr,$bet=1);
+    public abstract function getResults($winArr,$bet);
 
     public function getLastGame() {
         $query = $this->em
@@ -287,6 +287,10 @@ abstract class TblGames
             $this->em->persist($pr);
         }
         $this->em->persist($this);
+    }
+
+    protected function nrFormat($val) {
+        return "Gs " . number_format($val,0,",",".");
     }
 
 }

@@ -49,28 +49,37 @@ class Elegi2 extends TblGames
 		);
 	}
 
-    public function getResults($winArr,$bet=1){
+    public function getResults($winArr,$gameBet){
 		$result = array();
 		$hits = 0;
 		$nrArr = $this->getNumbers()->toArray();
 		for ( $i=0 ; $i < count($winArr) ; $i++ ){
-			if ( $winArr[$i] == $nrArr[$i] ) {
+			if ( $winArr[$i] == $nrArr[$i]->getNr() ) {
 				$hits++;
 				$result[] = array (
-						"nr"    => $nrArr[$i],
+						"nr"    => $nrArr[$i]->getNr(),
 						"hit"   => 1,
 				);
 			} else {
 				$result[] = array (
-						"nr"    => $nrArr[$i],
+						"nr"    => $nrArr[$i]->getNr(),
 						"hit"   => 0,
 				);			
 			}			
 		}
 
+		$prArr = $this->getPrizes()->toArray();
+
+		$prizeStr = "Sin premio (0 aciertos)";
+		if ($hits == 2)
+			$prizeStr = "Gs " . $this->nrFormat($prArr[0]->getPrize()*$gameBet/1000,0,",",".") . " (2 aciertos)";
+		if ($hits == 1)
+			$prizeStr = "Gs " . $this->nrFormat($prArr[1]->getPrize()*$gameBet/1000,0,",",".") . " (1 acierto)";
+
+
 		return array(
 			"hits"   => $hits,
-			"prize"  => "",//$this->getPrize($hits),
+			"prize"  => $prizeStr,
 			"nrList" => $result,
 		);    
     	
