@@ -29,5 +29,54 @@ class Elegi2 extends TblGames
     	return "ELEGIDOS";
     }
 
+    public function getGameId() {
+    	return "E";
+    }
+
+	public function getGameUI() {
+		return array (
+				"gameId" => "E",
+				"gameName" => "Elegi2",
+				"gameLogo" => "/assets/images/logoElegi2.png",
+				"gameNumbers" => 2,
+				"nrFormats" => array_fill(0,2,"entryNumberWhite"),
+				"inpOffset" => "",
+				"gameNrWidth" => 100,				
+				"logoW" => 200 * 2,
+				"logoH" => 71 * 2 ,
+				"prizeExpiration" => 90,
+				"askForBet" => true,
+		);
+	}
+
+    public function getResults($winArr,$bet=1){
+		$result = array();
+		$hits = 0;
+		$nrArr = $this->getNumbers()->toArray();
+		for ( $i=0 ; $i < count($winArr) ; $i++ ){
+			if ( $winArr[$i] == $nrArr[$i] ) {
+				$hits++;
+				$result[] = array (
+						"nr"    => $nrArr[$i],
+						"hit"   => 1,
+				);
+			} else {
+				$result[] = array (
+						"nr"    => $nrArr[$i],
+						"hit"   => 0,
+				);			
+			}			
+		}
+
+		return array(
+			"hits"   => $hits,
+			"prize"  => "",//$this->getPrize($hits),
+			"nrList" => $result,
+		);    
+    	
+    }
+
+		
+
 }
 

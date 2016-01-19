@@ -49,6 +49,13 @@
 						       id="{{ game.gameId }}-nr"
 						       data-gamefilter="{{ game.gameId }}"
 						       placeholder="N&uacute;mero de sorteo"/>
+						{% if game.askForBet %}
+							<input type="text" 
+							       class="form-control" 
+							       id="{{ game.gameId }}-bet"
+							       data-gamefilter="{{ game.gameId }}"
+							       placeholder="Monto de la apuesta"/>
+						{% endif %}
 					</div>
 				</form>
 			</div>

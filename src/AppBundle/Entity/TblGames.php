@@ -42,14 +42,14 @@ abstract class TblGames
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TblGamesNr", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TblGamesNr", mappedBy="idMaster")
      */
     private $numbers;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TblGamesPr", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TblGamesPr", mappedBy="idMaster")
      */
     private $prizes;
 
@@ -180,13 +180,19 @@ abstract class TblGames
     /**
      * Constructor
      */
-    public function __construct($em) {
+    public function __construct($em=null) {
         $this->numbers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->prizes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->em = $em;
 
         $this->initData();
     }
+
+    public abstract function getGameId();
+
+    public abstract function getGameUI();
+
+    public abstract function getResults($winArr,$bet=1);
 
     public function getLastGame() {
         $query = $this->em
@@ -208,7 +214,7 @@ abstract class TblGames
                               where g.drawdate = :gamedate
                               order by g.drawnr" )
                       ->setParameter ( "gamedate", $gameDate );
-        $data = $query->getResult();
+        $data = $query->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
         if ( count($data) == 0 )
             throw new \Exception("No hay juegos para esa fecha");
 

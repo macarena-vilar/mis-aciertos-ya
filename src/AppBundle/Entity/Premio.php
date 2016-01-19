@@ -33,5 +33,31 @@ class Premio extends TblGames
     public function getGameName() {
     	return "PREMIO";
     }
+
+    public function getGameId() {
+    	return "P";
+    }
+
+	public function getGameUI() {
+		return array (
+				"gameId" => "P",
+				"gameName" => "Premio",
+				"gameLogo" => "/assets/images/logoPremio.png",
+				"gameNumbers" => 10,
+				"nrFormats" => array_fill(0,10,"entryNumberWhite"),
+				"inpOffset" => "",
+				"gameNrWidth" => 250,				
+				"logoW" => 202 * 2,
+				"logoH" => 78 * 2 ,
+				"prizeExpiration" => 30,
+				"askForBet" => false,
+		);
+	}
+
+    public function getResults($winArr,$bet=1){
+    	
+    }
+	
+
 }
 

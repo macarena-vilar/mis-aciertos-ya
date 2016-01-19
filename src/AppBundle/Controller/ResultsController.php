@@ -5,30 +5,38 @@ namespace AppBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\Route;
 use AppBundle\Util\GameFactory;
+use Symfony\Component\HttpFoundation\Request;
 
 class ResultsController extends FOSRestController
 {
     /**
      * @Route("/api/v1/hits/{gameId}/{gameD}/{gameM}/{gameY}")
      */
-    public function getHitsAction($gameId,$gameD,$gameM,$gameY) {
+    public function getHitsAction(Request $request,$gameId,$gameD,$gameM,$gameY) {
 
-        $winArr = $this->getRequest()->get("winningNr");
+        $winArr = $request->get("winningNr");
         $gameDate = "$gameY-$gameM-$gameD";
 
-        $gameFactory = $this->container->get("gameFactory");
-        $gameList = $gameFactory->findGamesByDate($gameId,$gameDate);
+        $repo = $this->getDoctrine()->getRepository('AppBundle:TblGames');
+
+        $gameList = $repo->getGamesByDate($gameId,$gameDate);
+
         if ( $gameList != null && !is_array($gameList) ) {
             // It's an error/warning message
             $data = array ( "msg" => $gameList );
             return $this->render ( 'AppBundle:Results:float-msg.html.twig', $data );      
         }
+
         if ( $gameList == null || count($gameList) == 0 )
             throw new \Exception("Sin datos disponibles");
 
         $rowList = array();
-    	foreach ( $gameList as $drawNr ) {
-            $rowList[] = $gameFactory->getGameResults($gameId,$drawNr,$winArr);
+    	foreach ( $gameList as $game ) {
+            $rowList[] = array( 
+                "drawNr"   => $game->getDrawNr(),
+                "gameHits" => $game->getResults($winArr),
+            );
+            //$rowList[] = //$gameFactory->getGameResults($gameId,$drawNr,$winArr);
     	}
 
     	$data = array(

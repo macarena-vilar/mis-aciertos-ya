@@ -4,10 +4,10 @@ AppBundle\Entity\TblGames:
     oneToMany:
         numbers:
             targetEntity: TblGamesNr
-            mappedBy: game
+            mappedBy: idMaster
         prizes:
             targetEntity: TblGamesPr
-            mappedBy: game
+            mappedBy: idMaster
     inheritanceType: SINGLE_TABLE
     discriminatorColumn:
         name: gameid

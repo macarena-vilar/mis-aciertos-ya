@@ -44,5 +44,31 @@ class SuperLotto extends TblGames
     public function getGameName() {
     	return "SUPERLOTTO";
     }
+
+    public function getGameId() {
+    	return "S";
+    }
+
+	public function getGameUI() {
+		return array (
+				"gameId" => "S",
+				"gameName" => "SuperLotto",
+				"gameLogo" => "/assets/images/logoSuper.png",
+				"gameNumbers" => 6,
+				"nrFormats" => array_merge(array_fill(0,5,"entryNumberWhite"),
+						                   array_fill(5,1,"entryNumberWildCard")),
+				"inpOffset" => "",
+				"gameNrWidth" => 300,				
+				"logoW" => 160,
+				"logoH" => 78 * 2,
+				"prizeExpiration" => 90,
+				"askForBet" => false,
+		);
+	}
+
+    public function getResults($winArr,$bet=1){
+    	
+    }
+	
 }
 
