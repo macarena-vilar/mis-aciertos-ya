@@ -264,10 +264,10 @@ abstract class TblGames
     protected $minStart;
 
     public function getMinStart($start) {
-        return $start > $this->minStart ? $start : $this->minStart;
+        return $start > $this->minStart ? $start + 1  : $this->minStart;
     }
 
-    protected $maxEmptyItList = 14;
+    protected $maxEmptyItList = 7;
 
     public function getMaxEmptyItList() {
         return $this->maxEmptyItList;        
