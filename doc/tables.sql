@@ -49,7 +49,7 @@ GRANT ALL ON TABLE tbl_games_nr TO public;
 GRANT ALL ON TABLE tbl_games_pr TO public;
 
 
-CREATE INDEX tbl_games_ix1
+CREATE UNIQUE INDEX tbl_games_ix1
    ON tbl_games (gameid ASC NULLS LAST, drawnr ASC NULLS LAST);
    
 CREATE INDEX tbl_games_ix2

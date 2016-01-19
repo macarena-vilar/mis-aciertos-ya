@@ -1,3 +1,5 @@
+﻿drop table fsp_mockup;
+
 CREATE TABLE fsp_mockup
 (
   id serial NOT NULL,

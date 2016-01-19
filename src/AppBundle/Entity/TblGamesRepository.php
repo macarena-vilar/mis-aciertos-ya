@@ -70,8 +70,14 @@ class TblGamesRepository extends \Doctrine\ORM\EntityRepository {
 			$data =  $restClient->get($url,$headers)->getContent();
 			$newGame = clone $game;
 
+
 			if ( $newGame->initFromJson($data) ) {
-				$newGame->saveData();
+				try {
+					$newGame->saveData();
+				} catch( \Exception $ex) {
+					//echo $ex->getMessage() . "\n";
+				}
+
         		$emptyIt = 0;
 			} else {
 				$emptyIt++;
