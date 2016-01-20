@@ -1,0 +1,31 @@
+AppBundle\Entity\TblGamesNr:
+    type: entity
+    table: tbl_games_nr
+    indexes:
+        IDX_7B5903C8B3E163B:
+            columns:
+                - id_master
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nr:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+    manyToOne:
+        idMaster:
+            targetEntity: TblGames
+            inversedBy: numbers
+            cascade: ["persist"]
+            joinColumns:
+                id_master:
+                    referencedColumnName: id
+    lifecycleCallbacks: {  }

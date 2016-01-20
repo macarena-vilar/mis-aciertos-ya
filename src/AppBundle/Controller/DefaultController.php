@@ -24,6 +24,9 @@ class DefaultController extends Controller {
      * @Route("/{gameName}")
      */
     public function gameAction(Request $request,$gameName) {
+    	if($gameName=="test")
+    		return $this->testAction($request);
+
     	if ( ($game=GameFactory::newGameInstanceByName($gameName)) == null )
     		return $this->redirectToRoute('homepage');
     	$divs = array (
@@ -35,5 +38,11 @@ class DefaultController extends Controller {
     	return $this->render('AppBundle:Results:results.html.twig',$divs);
     }
     
+    protected function testAction(Request $request) {
+	    $repo = $this->getDoctrine()->getRepository('AppBundle:TblGames');
+
+	    $repo->getGamesByDate("S","2015-12-17");
+
+    }
     
 }

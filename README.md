@@ -1,4 +1,4 @@
-igt-pgy
+winning numbers
 =======
 
-A Symfony project created on November 27, 2015, 3:10 am.
+Chequeo de premios juegos Elegi2, Prem10 y Super Lotto.

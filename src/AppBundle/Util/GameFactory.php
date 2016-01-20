@@ -6,19 +6,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Doctrine\ORM\EntityManager;
 
 class GameFactory {
-	// Forced!
-	// In a new incarnation, must be dynamic	
-	private $_gameList = array(
-			"AppBundle\Util\GameHelperPremio",
-			"AppBundle\Util\GameHelperElegi2",
-			"AppBundle\Util\GameHelperSuper"
-	);
 	
 	public static function getGameList() {
+		// Forced!
+		// In a new incarnation, must be dynamic	
 		return array(
-			"AppBundle\Util\GameHelperPremio",
-			"AppBundle\Util\GameHelperElegi2",
-			"AppBundle\Util\GameHelperSuper"
+			"AppBundle\Entity\Premio",
+			"AppBundle\Entity\Elegi2",
+			"AppBundle\Entity\SuperLotto"
 		);
 	}
 	
@@ -30,97 +25,5 @@ class GameFactory {
 		}
 		return $retVal;
 	}
-
-	public static function newGameInstance($gameId) {
-		// Forced!
-		// In a new incarnation, must be dynamic
-		if ( $gameId === "E" )
-			return new GameHelperElegi2();
-		if ( $gameId === "P" )
-			return new GameHelperPremio();
-		if ( $gameId === "S" )
-			return new GameHelperSuper();
-		
-		return null;
-	}
-
-	public static function newGameInstanceByName($gameName) {
-		// Forced!
-		// In a new incarnation, must be dynamic
-		if ( strtoupper($gameName) === "ELEGIDOS" ||
-			 strtoupper($gameName) === "ELEGI2")
-			return new GameHelperElegi2();
-		if ( strtoupper($gameName) === "PREMIO" ||
-			 strtoupper($gameName) === "PREM10")
-			return new GameHelperPremio();
-		if ( strtoupper($gameName) === "SUPER" ||
-			 strtoupper($gameName) === "SUPERLOTTO")
-			return new GameHelperSuper();
-		
-		return null;
-	}
-
-	private $container;
-	private $em;
-
-    public function __construct(Container $container,EntityManager $em) {
-        $this->container = $container;
-        $this->em = $em;
-    }
-
-    private function loadFromWS($gameId,$drawNr){
-        $restClient = $this->container->get('ci.restclient');
-        $urlBase = $this->container->getParameter("winnerInfo.rest.url");
-        $headers = [CURLOPT_HTTPHEADER => $this->container->getParameter("rest.headers")];
-        $game = GameFactory::newGameInstance($gameId);
-		$url = $urlBase . "?game-name=" . $game->getGameName() . "&draw=$drawNr";
-        return $restClient->get($url,$headers)->getContent();
-    }
-
-    // 2 weeks without data
-    private $itLimit  = 14;
-
-    public function findGamesByDate($gameId,$gameDate) {
-        $game = GameFactory::newGameInstance($gameId);
-        if ( $game->isExpired($gameDate) )
-        	return "Lo siento, los premios de esa fecha ya han expirado";
-        $repo = $this->em->getRepository('AppBundle:TblGamesByDate');
-        $gameList = $repo->findGamesByDate($gameId, $gameDate);
-
-        if ( count($gameList)==0 ) {
-	    	$startN = $repo->getLastGame($gameId)+1;
-	    	if ( $startN <= $game->getMinStart() )
-	    		$startN = $game->getMinStart();
-
-	    	$it = 0;
-        	while( true ) {
-        		$jsData = $this->loadFromWS($gameId,$startN);
-
-    			if ( ($gameData = $game->basicInitFromJson($jsData)) !== null ) {    				
-    				$repo->newHeader($gameId,$gameData["drawNr"],$gameData["drawDate"]);
-    				$i = 0;
-    			}
-    			else 
-    				$it++;
-
-    			$startN++;
-    			if ( $it >= $this->itLimit )
-    				break;
-    		}
-
-    		// another chance
-        	$gameList = $repo->findGamesByDate($gameId, $gameDate);
-        }
-        return $gameList;
-    }
-
-    public function getGameResults($gameId,$drawNr,$winArr) {
-        $game = GameFactory::newGameInstance($gameId);
-        $jsonData = $this->loadFromWS($gameId,$drawNr);
-		$game->initFromJson($jsonData);		
-		return array(
-		     "drawNr"   => $drawNr,
-		     "gameHits" => $game->getGameResults($winArr));
-    }
 
 }

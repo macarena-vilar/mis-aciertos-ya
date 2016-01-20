@@ -1,8 +1,8 @@
 <div class="row">
 	<div class="col-xs-10">
-		<table class="table table-striped">
+		<table class="table-striped" style="width:100%">
 			<tr>
-				<td colspan="3">
+				<td >
 					<h3>
 						<strong>Sorteos del d&iacute;a {{ gameDate }}</strong>
 					</h3>
@@ -15,11 +15,14 @@
 					<h4><strong>Sorteo Nro. {{ r.drawNr }}</strong></h4> 
 					</span>
 				</td>
-				<td>{% for gH in r.gameHits["nrList"] %}
+				<td>
+					<div class="center-block" style="width:{{ nrWidth }}px;">
+					{% for gH in r.gameHits["nrList"] %}
 						<span class='entryNumber entryNumber{{ gH["hit"]== 0 ? 'No' }}Hit'>
 					 		{{gH["nr"] }} 
 						</span>
 					{% endfor %}
+					</div>
 				</td>
 				<td>
 					<span class='entryNumberText'> 
