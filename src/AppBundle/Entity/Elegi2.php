@@ -53,6 +53,17 @@ class Elegi2 extends TblGames
 		$result = array();
 		$hits = 0;
 		$nrArr = $this->getNumbers()->toArray();
+		$bA = $nrArr[0]->getNr();
+		$bB = $nrArr[1]->getNr();
+		$eA = $winArr[0];
+		$eB = $winArr[1];
+		$hitsB = array();
+		if ( $eA == $bA ) {
+
+
+		}
+		if ( $winArr[0] == $nrA )
+		if ( $winArr)
 		for ( $i=0 ; $i < count($winArr) ; $i++ ){
 			if ( $winArr[$i] == $nrArr[$i]->getNr() ) {
 				$hits++;
