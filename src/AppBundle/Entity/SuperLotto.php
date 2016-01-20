@@ -67,7 +67,120 @@ class SuperLotto extends TblGames
 	}
 
     public function getResults($winArr,$bet=1){
-    	
+		$result = array();		
+		$hits = 0;
+
+		$nrArr = $this->getNumbers()->toArray();
+
+		for ( $i=0 ; $i < count($winArr)-1 ; $i++ ){
+			$nr = $nrArr[$i];
+			if ( array_search($nr->getNr(), $winArr) !== false ) {
+				$hits++;
+				$result[] = array (
+						"nr"    => $nr->getNr(),
+						"hit"   => 1,
+				);
+			} else {
+				$result[] = array (
+						"nr"    => $nr->getNr(),
+						"hit"   => 0,
+				);			
+			}
+		}
+
+		// The wildCard
+		if ( $nrArr[5]->getNr() == $winArr[5] ){
+			$result[] = array (
+					"nr"    => $nrArr[5]->getNr() ,
+					"hit"   => 1,
+			);
+			$wildCard = true;
+		} else {
+			$result[] = array (
+					"nr"    => $nrArr[5]->getNr() ,
+					"hit"   => 0,
+			);
+			$wildCard = false;
+		}
+
+		$pStr = "$hits/5";
+
+		if ( $wildCard )
+			$pStr .= " + SB";
+
+		$pStr .= " acierto";
+		if($hits>1)
+			$pStr .= "s";
+
+		$index = 8;
+		if ( $hits == 5 ) {
+			if ( $wildCard )
+				$index = 0;
+			else 
+				$index = 1;
+		}
+		if ( $hits == 4 ) {
+			if ( $wildCard )
+				$index = 2;
+			else 
+				$index = 3;
+		}
+
+		if ( $hits == 3 ) {
+			if ( $wildCard )
+				$index = 4;
+			else 
+				$index = 5;
+		}
+
+		if ($hits == 2 && $wildCard )
+			$index = 6;
+
+		if ($hits == 1 && $wildCard )
+			$index = 7;
+
+		return array(
+			"hits"   => $hits,
+			"prize"  => $pStr . " " . $this->strPrize($index),
+			"nrList" => $result,
+		);     	
+    }
+
+    private function strPrize($index) {
+    	$strP = "";
+		$prArr = $this->getPrizes()->toArray();
+
+    	switch($index){
+    	case 0:
+			$strP = "Pozo acumulado " . $this->nrFormat($prArr[0]->getPrize()) . " (estimado)";
+			break;
+		case 1:
+			$strP = $this->nrFormat($prArr[1]->getPrize()) . "/" . $this->nrFormat($prArr[2]->getPrize());
+			break;
+		case 2:
+			$strP = $this->nrFormat($prArr[3]->getPrize()) . "/" . $this->nrFormat($prArr[4]->getPrize());
+			break;
+		case 3:
+			$strP = $this->nrFormat($prArr[5]->getPrize()) . "/" . $this->nrFormat($prArr[6]->getPrize());
+			break;
+		case 4:
+			$strP = $this->nrFormat($prArr[7]->getPrize()) . "/" . $this->nrFormat($prArr[8]->getPrize());
+			break;
+		case 5:
+			$strP = $this->nrFormat($prArr[9]->getPrize()) . "/" . $this->nrFormat($prArr[10]->getPrize());
+			break;
+		case 6:
+			$strP = $this->nrFormat($prArr[11]->getPrize()) . "/" . $this->nrFormat($prArr[12]->getPrize());
+			break;
+		case 7:
+			$strP = $this->nrFormat($prArr[13]->getPrize()) . "/" . $this->nrFormat($prArr[14]->getPrize());
+			break;
+		default:
+			$strP = "Sin premio";
+			break;
+    	}
+
+    	return $strP;
     }
 	
 }

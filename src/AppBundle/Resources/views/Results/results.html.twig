@@ -9,7 +9,7 @@
     margin: 0 auto;
 }
 </style>
-<div class="container" id="main">
+<div class="container" id="main">	
 {% for gameId,game in games %}
 {% set vars = {"game" : game , "offset" : offset[loop.index0] } %}
 {% include 'AppBundle:Results:game.html.twig' with vars %}

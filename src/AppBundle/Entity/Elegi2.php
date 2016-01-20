@@ -76,7 +76,6 @@ class Elegi2 extends TblGames
 		if ($hits == 1)
 			$prizeStr = $this->nrFormat($prArr[1]->getPrize()*$gameBet/1000,0,",",".") . " (1 acierto)";
 
-
 		return array(
 			"hits"   => $hits,
 			"prize"  => $prizeStr,

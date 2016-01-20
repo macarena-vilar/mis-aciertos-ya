@@ -42,7 +42,8 @@ class ResultsController extends FOSRestController
 
     	$data = array(
 			"gameDate" => "$gameD/$gameM/$gameY",
-    		"rowList"  => $rowList
+    		"rowList"  => $rowList,
+            "nrWidth"  => $game->getGameUI()["gameNrWidth"],
     	);
 
     	return $this->render ( 'AppBundle:Results:game-results.html.twig', $data );    	 
