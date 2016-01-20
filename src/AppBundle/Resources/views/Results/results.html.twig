@@ -110,39 +110,26 @@ function prizeClick(gameId) {
 	 	return;
 	  }
       */
-	  
+      if ( gameDate == null || gameDate == "" ) {
+		  gameUrl = "api/v1/hitsByNr/" + gameId + "/" + gameNr;
+      } else {
+		  gameUrl = "api/v1/hitsByDate/" + gameId + "/" + gameDate;
+      }
 	  startWait();
-	  if ( (gameDate != null && gameDate != "") ){
-		  $.ajax({
-			  url: "api/v1/hits/" + gameId + "/" + gameDate,
-			  data: { "winningNr" : winningNr , "bet" : gameBet },
-		      timeout: 30000 // 30 seconds
-		  }).done(function(data) {
-			  bootbox
-			  	.alert({
-			  		"size":"large",
-			  	 	"message": data});
-		  }).fail(function(a,b,c) {
-			  bootbox.alert( "No hay datos disponibles para esa fecha");
-		  }).always(function() {
-			  stopWait();
-		  });
-	  } else {
-		  $.ajax({
-			  url: "api/v1/hits/" + gameId + "/" + gameNr,
-			  data: { "winningNr" : winningNr},
-		      timeout: 30000 // 30 seconds
-		  }).done(function(data) {
-			  bootbox
-			  	.alert(data)
-			  	.find("div.modal-dialog")
-			  	.addClass("largeWidth");;
-		  }).fail(function(a,b,c) {
-			  bootbox.alert( "No hay datos disponibles para esa fecha");
-		  }).always(function() {
-			  stopWait();
-		  });
-	  }
+	  $.ajax({
+		  url: gameUrl,
+		  data: { "winningNr" : winningNr , "bet" : gameBet },
+	      timeout: 30000 // 30 seconds
+	  }).done(function(data) {
+		  bootbox
+		  	.alert({
+		  		"size":"large",
+		  	 	"message": data});
+	  }).fail(function(a,b,c) {
+		  bootbox.alert( "No hay datos disponibles para esa fecha");
+	  }).always(function() {
+		  stopWait();
+	  });
 }
 </script>
 {% endblock %}

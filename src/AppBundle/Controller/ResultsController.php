@@ -10,9 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 class ResultsController extends FOSRestController
 {
     /**
-     * @Route("/api/v1/hits/{gameId}/{gameD}/{gameM}/{gameY}")
+     * @Route("/api/v1/hitsByDate/{gameId}/{gameD}/{gameM}/{gameY}")
      */
-    public function getHitsAction(Request $request,$gameId,$gameD,$gameM,$gameY) {
+    public function getHitsByDateAction(Request $request,$gameId,$gameD,$gameM,$gameY) {
 
         $winArr   = $request->get("winningNr");
         $gameDate = "$gameY-$gameM-$gameD";
@@ -47,4 +47,34 @@ class ResultsController extends FOSRestController
 
     	return $this->render ( 'AppBundle:Results:game-results.html.twig', $data );    	 
     }
+
+    /**
+     * @Route("/api/v1/hitsByNr/{gameId}/{drawNr}")
+     */
+    public function getHitsByNrAction(Request $request,$gameId,$drawNr) {
+
+        $winArr   = $request->get("winningNr");
+        $gameBet  = $request->get("bet");
+
+        $repo = $this->getDoctrine()->getRepository('AppBundle:TblGames');
+
+        $game = $repo->getGameByNr($gameId,$drawNr);
+
+        if ( $game == null )
+            throw new \Exception("Sin datos disponibles");
+
+        $rowList[] = array( 
+            "drawNr"   => $game->getDrawNr(),
+            "gameHits" => $game->getResults($winArr,$gameBet),
+        );
+
+        $data = array(
+            "gameDate" => $game->getDrawDate()->format("d/m/Y"),
+            "rowList"  => $rowList
+        );
+
+        return $this->render ( 'AppBundle:Results:game-results.html.twig', $data );      
+    }
+
+
 }

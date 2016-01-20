@@ -227,8 +227,8 @@ abstract class TblGames
 
     }
 
-    public function getGameByNr($gameNr) {
 
+    public function getGameByNr($gameNr) {
         $query = $this->em
                       ->createQuery (
                           "select g

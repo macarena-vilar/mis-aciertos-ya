@@ -72,9 +72,9 @@ class Elegi2 extends TblGames
 
 		$prizeStr = "Sin premio (0 aciertos)";
 		if ($hits == 2)
-			$prizeStr = "Gs " . $this->nrFormat($prArr[0]->getPrize()*$gameBet/1000,0,",",".") . " (2 aciertos)";
+			$prizeStr = $this->nrFormat($prArr[0]->getPrize()*$gameBet/1000,0,",",".") . " (2 aciertos)";
 		if ($hits == 1)
-			$prizeStr = "Gs " . $this->nrFormat($prArr[1]->getPrize()*$gameBet/1000,0,",",".") . " (1 acierto)";
+			$prizeStr = $this->nrFormat($prArr[1]->getPrize()*$gameBet/1000,0,",",".") . " (1 acierto)";
 
 
 		return array(

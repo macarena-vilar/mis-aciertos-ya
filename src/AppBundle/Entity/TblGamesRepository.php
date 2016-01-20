@@ -46,6 +46,20 @@ class TblGamesRepository extends \Doctrine\ORM\EntityRepository {
 
     }
 
+    public function getGameByNr($gameId,$gameNr=null) {
+
+        $game = $this->newGameInstance($gameId);
+        $lastGame = $game->getLastGame();
+
+        if ( $gameNr == null || $gameNr > $lastGame["drawnr"] ) {
+            $this->loadGamesByDateFromWS($game,$gameNr,$game->getMinStart($lastGame["drawnr"]));
+        }
+
+        if ($gameNr !=null )
+        	return $game->getGameByNr($gameNr);
+        else 
+        	return null;
+    }
 
    	private function loadFromWS($gameId,$drawNr){
         $game = GameFactory::newGameInstance($gameId);
