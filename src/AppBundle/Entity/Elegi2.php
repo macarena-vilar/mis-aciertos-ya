@@ -52,33 +52,25 @@ class Elegi2 extends TblGames
     public function getResults($winArr,$gameBet){
 		$result = array();
 		$hits = 0;
-		$nrArr = $this->getNumbers()->toArray();
-		$bA = $nrArr[0]->getNr();
-		$bB = $nrArr[1]->getNr();
-		$eA = $winArr[0];
-		$eB = $winArr[1];
-		$hitsB = array();
-		if ( $eA == $bA ) {
-
-
-		}
-		if ( $winArr[0] == $nrA )
-		if ( $winArr)
-		for ( $i=0 ; $i < count($winArr) ; $i++ ){
-			if ( $winArr[$i] == $nrArr[$i]->getNr() ) {
-				$hits++;
-				$result[] = array (
-						"nr"    => $nrArr[$i]->getNr(),
-						"hit"   => 1,
-				);
-			} else {
-				$result[] = array (
-						"nr"    => $nrArr[$i]->getNr(),
-						"hit"   => 0,
-				);			
-			}			
-		}
-
+        $result = [];
+        foreach($this->getNumbers() as $nr) {
+            $result[] = [
+                "nr"    => $nr->getNr(),
+                "hit"   => 0,                
+            ];
+        }
+        foreach( $winArr as $winNr ){
+		  for ( $i=0 ; $i < count($result) ; $i++ ){
+              if ( $result[$i]["hit"] == 0 ) {
+                if ( $winNr == $result[$i]["nr"]){
+                    $hits++;
+                    $result[$i]["hit"] = 1;
+                    break;                    
+                }                  
+              }
+          }
+        }
+        
 		$prArr = $this->getPrizes()->toArray();
 
 		$prizeStr = "Sin premio (0 aciertos)";
