@@ -33,11 +33,11 @@ class TblGamesRepository extends \Doctrine\ORM\EntityRepository {
         // Forced!
         // In a new incarnation, must be dynamic
         $em = $this->getEntityManager();
-        if ( $gameId === "ELEGIDOS" )
+        if ( $gameName === "ELEGIDOS" )
             return new Elegi2($em);
-        if ( $gameId === "PREMIO" )
+        if ( $gameName === "PREMIO" )
             return new Premio($em);
-        if ( $gameId === "SUPERLOTTO" )
+        if ( $gameName === "SUPERLOTTO" )
             return new SuperLotto($em);
         
         return null;

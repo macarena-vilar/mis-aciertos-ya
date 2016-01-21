@@ -27,7 +27,8 @@ class DefaultController extends Controller {
     	if($gameName=="test")
     		return $this->testAction($request);
 
-    	if ( ($game=GameFactory::newGameInstanceByName($gameName)) == null )
+	$repo = $this->getDoctrine()->getRepository('AppBundle:TblGames');
+    	if ( ($game=$repo->newGameInstanceByName($gameName)) == null )
     		return $this->redirectToRoute('homepage');
     	$divs = array (
     				"games"   => array ( $game->getGameId() => $game->getGameUI() ),
