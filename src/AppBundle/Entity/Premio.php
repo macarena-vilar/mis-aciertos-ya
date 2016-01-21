@@ -25,9 +25,9 @@ class Premio extends TblGames
 				preg_replace("/\./","",$data->text),
 				$matches);
 	    $this->newPrize($matches[1][3]);
-	    $this->newPrize($matches[1][0]);
-	    $this->newPrize($matches[1][1]);
-	    $this->newPrize($matches[1][2]);
+	    $this->newPrize(100000) ;
+	    $this->newPrize(10000);
+	    $this->newPrize(2000);
 	}
 
     public function getGameName() {
