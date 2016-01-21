@@ -15,19 +15,33 @@ use \AppBundle\Util\GameHelper;
  */
 class TblGamesRepository extends \Doctrine\ORM\EntityRepository {
 
-	public function newGameInstance($gameId) {
-		// Forced!
-		// In a new incarnation, must be dynamic
-		$em = $this->getEntityManager();
-		if ( $gameId === "E" )
-			return new Elegi2($em);
-		if ( $gameId === "P" )
-			return new Premio($em);
-		if ( $gameId === "S" )
-			return new SuperLotto($em);
-		
-		return null;
-	}
+    public function newGameInstance($gameId) {
+        // Forced!
+        // In a new incarnation, must be dynamic
+        $em = $this->getEntityManager();
+        if ( $gameId === "E" )
+            return new Elegi2($em);
+        if ( $gameId === "P" )
+            return new Premio($em);
+        if ( $gameId === "S" )
+            return new SuperLotto($em);
+        
+        return null;
+    }
+
+    public function newGameInstanceByName($gameName) {
+        // Forced!
+        // In a new incarnation, must be dynamic
+        $em = $this->getEntityManager();
+        if ( $gameId === "ELEGIDOS" )
+            return new Elegi2($em);
+        if ( $gameId === "PREMIO" )
+            return new Premio($em);
+        if ( $gameId === "SUPERLOTTO" )
+            return new SuperLotto($em);
+        
+        return null;
+    }
 
 
     public function getGamesByDate($gameId,$gameDate=null) {
