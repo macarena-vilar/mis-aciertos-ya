@@ -287,6 +287,7 @@ abstract class TblGames
             $this->em->persist($pr);
         }
         $this->em->persist($this);
+        $this->em->flush();
     }
 
     protected function nrFormat($val) {
