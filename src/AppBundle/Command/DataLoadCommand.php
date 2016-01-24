@@ -18,14 +18,17 @@ class DataLoadCommand extends ContainerAwareCommand
             ->addArgument(
                 'game',
                 InputArgument::REQUIRED
-            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $game = $input->getArgument('game');
+        
         $repo = $this->getContainer()->get("doctrine")->getManager()->getRepository('AppBundle:TblGames');
         $repo->getGamesByDate($game);
+
+        $repoS = $this->getContainer()->get("doctrine")->getManager()->getRepository('AppBundle:TblStakes');
+        $repoS->loadStakesFromWS($game);
     }
 }

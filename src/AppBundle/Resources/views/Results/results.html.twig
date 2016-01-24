@@ -11,7 +11,7 @@
 </style>
 <div class="container" id="main">	
 {% for gameId,game in games %}
-{% set vars = {"game" : game , "offset" : offset[loop.index0] } %}
+{% set vars = {"game" : game , "offset" : offset[loop.index0] , "stakes" : stakes[gameId]} %}
 {% include 'AppBundle:Results:game.html.twig' with vars %}
 {% endfor %}
 </div>  
@@ -35,6 +35,16 @@ var spinOpts = {
 };
 
 var spinnerOverlay = null;
+
+function afterInit() {
+	adjustHeight();
+}
+
+function adjustHeight() {
+	divs = $(".well");
+	maxH = divs.height();
+	divs.height(maxH+20);
+}
 
 function startWait(){
 	if ( spinnerOverlay == null ) {
@@ -62,19 +72,11 @@ function prizeClear(gameId) {
 }
 
 function prizeClick(gameId) {
-	  gameDate = $("#" + gameId + "-date")[0].value.trim();	  
 	  gameNr   = $("#" + gameId + "-nr")[0].value.trim();
 	  gameBetS = $("#" + gameId + "-bet")[0].value.trim();
 
-	  if ( (gameDate == null || gameDate == "") && 
-	  	   (gameNr == null || gameNr == "")) {
-		  bootbox.alert( "Debe completar la fecha o el n&uacute;mero del sorteo");
-		  return;
-	  }
-
-	  if ( (gameDate != null && gameDate != "") && 
-	  	   (gameNr != null && gameNr != "")) {
-		  bootbox.alert( "Debe elegir la fecha o el n&uacute;mero del sorteo (solo uno de los dos)");
+	  if ( (gameNr == null || gameNr == "")) {
+		  bootbox.alert( "Debe completar el n&uacute;mero del sorteo");
 		  return;
 	  }
 
@@ -110,11 +112,7 @@ function prizeClick(gameId) {
 	 	return;
 	  }
       */
-      if ( gameDate == null || gameDate == "" ) {
-		  gameUrl = "api/v1/hitsByNr/" + gameId + "/" + gameNr;
-      } else {
-		  gameUrl = "api/v1/hitsByDate/" + gameId + "/" + gameDate;
-      }
+	  gameUrl = "api/v1/hitsByNr/" + gameId + "/" + gameNr;
 	  startWait();
 	  $.ajax({
 		  url: gameUrl,
@@ -126,7 +124,7 @@ function prizeClick(gameId) {
 		  		"size":"large",
 		  	 	"message": data});
 	  }).fail(function(a,b,c) {
-		  bootbox.alert( "No hay datos disponibles para esa fecha");
+		  bootbox.alert( "No hay datos disponibles para ese sorteo");
 	  }).always(function() {
 		  stopWait();
 	  });

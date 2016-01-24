@@ -43,7 +43,6 @@ class TblGamesRepository extends \Doctrine\ORM\EntityRepository {
         return null;
     }
 
-
     public function getGamesByDate($gameId,$gameDate=null) {
 
         $game = $this->newGameInstance($gameId);
@@ -97,8 +96,6 @@ class TblGamesRepository extends \Doctrine\ORM\EntityRepository {
 
 			$data =  $restClient->get($url,$headers)->getContent();
 			$newGame = clone $game;
-
-
 			if ( $newGame->initFromJson($data) ) {
 				try {
 					$newGame->saveData();

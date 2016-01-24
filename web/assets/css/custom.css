@@ -67,3 +67,8 @@ body {
 	margin-left: auto; 
 	margin-right: auto;	
 }
+
+select.form-control {
+    -moz-appearance: menulist !important;
+    -webkit-appearance: menulist;
+}

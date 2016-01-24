@@ -25,20 +25,20 @@ class SuperLotto extends TblGames
 				preg_replace("/\./","",$data->text),
 				$matches);
 	    $this->newPrize($matches[1][14]);
-	    $this->newPrize($matches[1][ 0]);
 	    $this->newPrize($matches[1][ 7]);
-	    $this->newPrize($matches[1][ 1]);
+	    $this->newPrize($matches[1][ 0]);
 	    $this->newPrize($matches[1][ 8]);
-	    $this->newPrize($matches[1][ 2]);
+	    $this->newPrize($matches[1][ 1]);
 	    $this->newPrize($matches[1][ 9]);
-	    $this->newPrize($matches[1][ 3]);
+	    $this->newPrize($matches[1][ 2]);
 	    $this->newPrize($matches[1][10]);
-	    $this->newPrize($matches[1][ 4]);
+	    $this->newPrize($matches[1][ 3]);
 	    $this->newPrize($matches[1][11]);
-	    $this->newPrize($matches[1][ 5]);
+	    $this->newPrize($matches[1][ 4]);
 	    $this->newPrize($matches[1][12]);
-	    $this->newPrize($matches[1][ 6]);
+	    $this->newPrize($matches[1][ 5]);
 	    $this->newPrize($matches[1][13]);		
+	    $this->newPrize($matches[1][ 6]);
 	}
 
     public function getGameName() {
@@ -62,11 +62,11 @@ class SuperLotto extends TblGames
 				"logoW" => 160,
 				"logoH" => 78 * 2,
 				"prizeExpiration" => 90,
-				"askForBet" => false,
+				"askForBet" => true,
 		);
 	}
 
-    public function getResults($winArr,$bet=1){
+    public function getResults($winArr,$bet){
 		$result = array();		
 		$hits = 0;
 
@@ -141,47 +141,40 @@ class SuperLotto extends TblGames
 
 		return array(
 			"hits"   => $hits,
-			"prize"  => $pStr . " " . $this->strPrize($index),
+			"prize"  => $pStr . " " . $this->strPrize($index,$bet),
 			"nrList" => $result,
 		);     	
     }
 
-    private function strPrize($index) {
+    private function strPrize($index,$bet) {
+
+    	if ( $index == 8 )
+    		return "Sin premio";
+
+    	$repo = $this->em->getRepository("AppBundle:TblStakes");
+
+    	$stakes = $repo->getGameStakes('S');
+    	if ( $stakes[0] == $bet )
+    		$j = 0;
+    	else if ( $stakes[1] == $bet )
+    		$j=1;
+    	else
+    		throw new \Exception("Apuesta incorrecta");
     	$strP = "";
 		$prArr = $this->getPrizes()->toArray();
-
-    	switch($index){
-    	case 0:
-			$strP = "Pozo acumulado " . $this->nrFormat($prArr[0]->getPrize()) . " (estimado)";
-			break;
-		case 1:
-			$strP = $this->nrFormat($prArr[1]->getPrize()) . "/" . $this->nrFormat($prArr[2]->getPrize());
-			break;
-		case 2:
-			$strP = $this->nrFormat($prArr[3]->getPrize()) . "/" . $this->nrFormat($prArr[4]->getPrize());
-			break;
-		case 3:
-			$strP = $this->nrFormat($prArr[5]->getPrize()) . "/" . $this->nrFormat($prArr[6]->getPrize());
-			break;
-		case 4:
-			$strP = $this->nrFormat($prArr[7]->getPrize()) . "/" . $this->nrFormat($prArr[8]->getPrize());
-			break;
-		case 5:
-			$strP = $this->nrFormat($prArr[9]->getPrize()) . "/" . $this->nrFormat($prArr[10]->getPrize());
-			break;
-		case 6:
-			$strP = $this->nrFormat($prArr[11]->getPrize()) . "/" . $this->nrFormat($prArr[12]->getPrize());
-			break;
-		case 7:
-			$strP = $this->nrFormat($prArr[13]->getPrize()) . "/" . $this->nrFormat($prArr[14]->getPrize());
-			break;
-		default:
-			$strP = "Sin premio";
-			break;
+    	//var_dump($stakes);
+    	/*foreach ($prArr as $key => $value) {
+    		echo "$key ->" . $value->getPrize() . "\n";
     	}
+    	die("qq");*/
+
+		if ( $index == 0 )
+			$strP = "Pozo acumulado " . $this->nrFormat($prArr[0]->getPrize()) . " (estimado)";
+		else {
+			$strP = $this->nrFormat($prArr[2*$index-$j]->getPrize());
+		} 
 
     	return $strP;
     }
 	
 }
-

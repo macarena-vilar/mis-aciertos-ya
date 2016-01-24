@@ -90,4 +90,3 @@ class Elegi2 extends TblGames
 		
 
 }
-

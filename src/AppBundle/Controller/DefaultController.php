@@ -12,8 +12,11 @@ class DefaultController extends Controller {
 	 * @Route("/", name="homepage")
 	 */
 	public function indexAction(Request $request) {
+		$repoStakes = $this->getDoctrine()->getRepository('AppBundle:TblStakes');
+
 		$divs = array (
 				"games"   => GameFactory::getGameUIList (),
+				"stakes"  => $repoStakes->getStakes(),
 				"offset"  => array( "","",""),
 				"social"  => $this->container->getParameter("social.icons"),
 		);
@@ -27,7 +30,7 @@ class DefaultController extends Controller {
     	if($gameName=="test")
     		return $this->testAction($request);
 
-	$repo = $this->getDoctrine()->getRepository('AppBundle:TblGames');
+		$repo = $this->getDoctrine()->getRepository('AppBundle:TblGames');
     	if ( ($game=$repo->newGameInstanceByName($gameName)) == null )
     		return $this->redirectToRoute('homepage');
     	$divs = array (
@@ -40,9 +43,9 @@ class DefaultController extends Controller {
     }
     
     protected function testAction(Request $request) {
-	    $repo = $this->getDoctrine()->getRepository('AppBundle:TblGames');
+	    $repo = $this->getDoctrine()->getRepository('AppBundle:TblStakes');
 
-	    $repo->getGamesByDate("S","2015-12-17");
+	    print_r($repo->getStakes("S"));
 
     }
     

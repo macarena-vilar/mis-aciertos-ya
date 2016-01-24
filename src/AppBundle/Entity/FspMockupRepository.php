@@ -24,4 +24,17 @@ class FspMockupRepository extends \Doctrine\ORM\EntityRepository
         	return '{"status":"REJECTED","rejectReason":"INFORMATION_NOT_AVAILABLE"}';
         return $data[0]->getJsontxt();
 	}
+
+	public function getStakes($gameId) {
+		$query = $this->getEntityManager ()
+		              ->createQuery (
+				            "select m
+                               from AppBundle:FspMockup m
+                              where m.gameid = :gameid")
+		              ->setParameter ( "gameid", strtolower($gameId) );
+        $data = $query->getResult();
+        if (count($data) == 0 )
+        	return '{"status":"REJECTED","rejectReason":"INFORMATION_NOT_AVAILABLE"}';
+        return $data[0]->getJsontxt();
+	}
 }
