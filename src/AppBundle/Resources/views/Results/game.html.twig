@@ -24,32 +24,34 @@
                   </div>
             </div>
 			<div>
-				<form class="form-inline">
+				<form class="form-horizontal">				
 					<div class="form-group">
-						<div class="input-group">
-							<label for="{{ game.gameId }}-nr">
-								Sorteo
+						<div >
+							<label class="control-label col-xs-6"
+							       for="{{ game.gameId }}-nr">
+								N&uacute;mero de sorteo
 							</label>
+							<div class="col-xs-6">
 							<input type="text" 
 						           class="form-control" 
 						           name="{{ game.gameId }}-nr"
 						           id="{{ game.gameId }}-nr"
 						           data-gamefilter="{{ game.gameId }}"/>
+						    </div>
 						{% if game.askForBet %}
-							<label for="{{ game.gameId }}-bet">
-								Apuesta
-							</label>
-		
-<select class="form-control"
-						       id="{{ game.gameId }}-bet"
-						       data-gamefilter="{{ game.gameId }}"
-placeholder="N&uacute;mero de sorteo">
-{% for stake in stakes %}
-	<option>{{ stake }}</option>
-{% endfor %}
-</select>
-
-
+							<label class="control-label col-xs-6"
+							       for="{{ game.gameId }}-bet">
+								Monto de la apuesta
+							</label>		
+							<div class="col-xs-6">
+							<select class="form-control"
+						       		id="{{ game.gameId }}-bet"
+						            data-gamefilter="{{ game.gameId }}">
+							{% for stake in stakes %}
+								<option>{{ stake }}</option>
+							{% endfor %}
+							</select>
+							</div>
 						{% else %}
 							<input type="hidden" 
 							       class="form-control" 
