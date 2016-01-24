@@ -18,8 +18,7 @@ class DataLoadCommand extends ContainerAwareCommand
             ->addArgument(
                 'game',
                 InputArgument::REQUIRED
-            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

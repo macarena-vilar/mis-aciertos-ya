@@ -36,6 +36,16 @@ var spinOpts = {
 
 var spinnerOverlay = null;
 
+function afterInit() {
+	adjustHeight();
+}
+
+function adjustHeight() {
+	divs = $(".well");
+	maxH = divs.height();
+	divs.height(maxH+20);
+}
+
 function startWait(){
 	if ( spinnerOverlay == null ) {
 		var target = document.createElement("div");
