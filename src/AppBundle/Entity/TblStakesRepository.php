@@ -37,5 +37,42 @@ class TblStakesRepository extends \Doctrine\ORM\EntityRepository
       }
   }
 
-  
+  public function loadStakesFromWS($gameId) {
+    // Forced!
+    if ( $gameId == "P" )
+      return;
+
+    if ( $gameId == "S" )
+      $gameName = "SUPERLOTTO";
+    else
+      $gameName = "ELEGIDOS";
+
+    global $kernel;
+    if($kernel instanceOf \AppCache) 
+      $kernel = $kernel->getKernel();
+    $restClient = $kernel->getContainer()->get('ci.restclient');
+
+    $headers = [CURLOPT_HTTPHEADER => $kernel->getContainer()->getParameter("rest.headers")];
+    $url = $kernel->getContainer()->getParameter("gameRules.rest.url") . "/" . $gameName;
+
+    $data =  json_decode($restClient->get($url,$headers)->getContent());
+    $stakes = json_encode($data->stakes);
+
+    $query = $this->getEntityManager()
+                  ->createQuery (
+                        "select s
+                           from AppBundle:TblStakes s
+                          where s.gameid = :gameid" )
+                  ->setParameter ( "gameid", $gameId );
+    try  {
+      $rec = $query->getSingleResult();
+    } catch (\Exception $ex) {
+      $rec = new TblStakes();
+      $rec->setGameid($gameId);
+    }
+    $rec->setStakes($stakes);
+    $this->getEntityManager()->persist($rec);
+    $this->getEntityManager()->flush();
+
+  }
 }
