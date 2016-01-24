@@ -43,7 +43,6 @@ class TblGamesRepository extends \Doctrine\ORM\EntityRepository {
         return null;
     }
 
-
     public function getGamesByDate($gameId,$gameDate=null) {
 
         $game = $this->newGameInstance($gameId);

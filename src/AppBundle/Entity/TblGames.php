@@ -175,7 +175,7 @@ abstract class TblGames
         return $this->prizes;
     }
 
-    private $em = null;
+    public $em = null;
 
     /**
      * Constructor
@@ -236,6 +236,7 @@ abstract class TblGames
                             where g.drawnr = :gamenr" )
                       ->setParameter ( "gamenr", $gameNr );
         $data = $query->getResult();
+        $data[0]->em = $this->em;
         return $data[0];
     }
 
