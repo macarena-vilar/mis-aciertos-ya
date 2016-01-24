@@ -1,0 +1,15 @@
+AppBundle\Entity\TblStakes:
+    type: entity
+    table: tbl_stakes
+    repositoryClass: AppBundle\Entity\TblStakesRepository
+    id:
+        gameid:
+            type: string
+            length: 1
+            options:
+                fixed: false
+    fields:
+        stakes:
+            type: string
+            nullable: false
+    lifecycleCallbacks: {  }

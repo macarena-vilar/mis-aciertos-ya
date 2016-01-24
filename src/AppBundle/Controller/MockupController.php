@@ -18,5 +18,15 @@ class MockupController extends FOSRestController
 					 ->getRepository('AppBundle:FspMockup');
     	return new Response($repo->getWinnersInfo($gameId,$drawNr));
     }
+
+    /**
+     * @Route("/api/v2/draw-games/rules/{gameName}")
+     */
+    public function getStakesAction($gameName) {
+        $gameId = substr($gameName,0,1);
+        $repo = $this->getDoctrine()
+                     ->getRepository('AppBundle:FspMockup');
+        return new Response($repo->getStakes($gameId));
+    }
     
 }

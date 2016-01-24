@@ -6,8 +6,8 @@
     <meta name="author" content="lblum@menhir.com.ar"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-  	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css"/>
-  	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" type="text/css"/>
+  	<!--link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css"/>
+  	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" type="text/css"/-->
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"/>    
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datepicker3.min.css') }}"/>    
@@ -51,12 +51,11 @@
 	    <script type="text/javascript">
 		  $(function () {
 		    $.material.init();
-		    $('.input-group.date').datepicker({
-		        format: "dd/mm/yyyy",
-		        language: "es",
-		        autoclose: true,
-		        todayHighlight : true
-		    });
+            //try{
+                afterInit();
+            //} catch (ex) {
+
+            //}
 		  });
 		</script>
     </body>
