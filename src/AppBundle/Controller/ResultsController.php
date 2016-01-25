@@ -61,6 +61,12 @@ class ResultsController extends FOSRestController
 
         $game = $repo->getGameByNr($gameId,$drawNr);
 
+        if ( $game != null && !is_object($game) ) {
+            // It's an error/warning message
+            $data = array ( "msg" => $game );
+            return $this->render ( 'AppBundle:Results:float-msg.html.twig', $data );      
+        }        
+
         if ( $game == null )
             throw new \Exception("Sin datos disponibles");
 

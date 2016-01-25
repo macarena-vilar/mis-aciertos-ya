@@ -35,9 +35,11 @@ var spinOpts = {
 };
 
 var spinnerOverlay = null;
-
+var cmbs;
 function afterInit() {
 	adjustHeight();
+	cmbs = $("select");
+	//cmbs.combobox();
 }
 
 function adjustHeight() {
@@ -67,8 +69,7 @@ function stopWait(){
 function prizeClear(gameId) {
 	nrList = $("input[data-game='" + gameId + "']");
 	nrList.val('');
-	nrList = $("input[data-gamefilter='" + gameId + "']");
-	nrList.val('');
+	$("#" + gameId + "-bet").val(1);
 }
 
 function prizeClick(gameId) {

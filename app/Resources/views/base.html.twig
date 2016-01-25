@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/css/spinner.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/css/iosOverlay.css') }}"/>
+
+    <!-- Empty favicon -->
+    <link rel="icon" type="image/png" href="data:;base64,iVBORw0KGgo=">
     
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,18 +48,12 @@
 	    <script src="{{ asset('assets/js/bootbox.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('assets/js/iosOverlay.js') }}" type="text/javascript"></script>
         <script src="{{ asset('assets/js/spin.min.js') }}" type="text/javascript"></script>
-	    <script src="{{ asset('assets/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
-	    <script src="{{ asset('assets/js/bootstrap-datepicker.es.min.js') }}" type="text/javascript"></script>
 
 	    <script type="text/javascript">
-		  $(function () {
-		    $.material.init();
-            //try{
-                afterInit();
-            //} catch (ex) {
-
-            //}
-		  });
+        $(document).ready(function(){
+            $.material.init();
+            afterInit();
+        });
 		</script>
     </body>
 </html>
