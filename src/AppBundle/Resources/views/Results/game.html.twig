@@ -35,7 +35,7 @@
 					           class="form-control"
 					           name="{{ game.gameId }}-nr"
 					           id="{{ game.gameId }}-nr"
-					          data-gamefilter="{{ game.gameId }}"/>
+					          data-game="{{ game.gameId }}"/>
 					    </div>
 					</div>
 					<div class="form-group">
@@ -61,12 +61,6 @@
 						    value="1"/>
 						{% endif %}
 					</div>
-
-
-
-
-
-
 				</form>
 			</div>
 
@@ -74,6 +68,7 @@
 				<div class="col-sm-12 col-xs-offset-1">
 					<button type="button" 
 					        class="btn btn-raised btn-primary btn-sm"
+
 						    id="{{ game.gameName }}-clear" 
 						    data-gameId="{{ game.gameId }}"
 						    onClick="prizeClear('{{ game.gameId }}')">

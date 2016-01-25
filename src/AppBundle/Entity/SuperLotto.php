@@ -72,7 +72,7 @@ class SuperLotto extends TblGames
 
 		$nrArr = $this->getNumbers()->toArray();
 
-		for ( $i=0 ; $i < count($winArr)-1 ; $i++ ){
+		for ( $i=0 ; $i < count($winArr)-2 ; $i++ ){
 			$nr = $nrArr[$i];
 			if ( array_search($nr->getNr(), $winArr) !== false ) {
 				$hits++;
@@ -154,9 +154,9 @@ class SuperLotto extends TblGames
     	$repo = $this->em->getRepository("AppBundle:TblStakes");
 
     	$stakes = $repo->getGameStakes('S');
-    	if ( $stakes[0] == $bet )
+    	if ( $stakes[0]/100 == $bet )
     		$j = 0;
-    	else if ( $stakes[1] == $bet )
+    	else if ( $stakes[1]/100 == $bet )
     		$j=1;
     	else
     		throw new \Exception("Apuesta incorrecta");
