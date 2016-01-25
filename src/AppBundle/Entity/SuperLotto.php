@@ -74,7 +74,8 @@ class SuperLotto extends TblGames
 
 		for ( $i=0 ; $i < count($winArr)-2 ; $i++ ){
 			$nr = $nrArr[$i];
-			if ( array_search($nr->getNr(), $winArr) !== false ) {
+			$indx = array_search($nr->getNr(), $winArr);
+			if ( $indx  !== false && $indx != 5 ) {
 				$hits++;
 				$result[] = array (
 						"nr"    => $nr->getNr(),
