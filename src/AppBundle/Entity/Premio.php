@@ -79,7 +79,8 @@ class Premio extends TblGames
 		switch ($hits) {
 		case '0':
 		case '10':
-			$prizeStr = "Primer premio " . $this->nrFormat($prArr[0]->getPrize()*$bet,0,",",".");
+			//$prizeStr = "Primer premio " . $this->nrFormat($prArr[0]->getPrize()*$bet,0,",",".");
+			$prizeStr = "Primer premio: Pozo acumulado para el sorteo de referencia";
 			break;
 		case '1':
 		case '9':
