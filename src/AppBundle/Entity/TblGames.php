@@ -241,7 +241,7 @@ abstract class TblGames
         
         if ( $data[0]->isExpired() )
             return "Lo siento, los premios de esa fecha ya han expirado";
-
+        $data[0]->em = $this->em;
         return $data[0];
     }
 
