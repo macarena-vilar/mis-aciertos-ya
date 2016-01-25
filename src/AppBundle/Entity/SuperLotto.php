@@ -74,7 +74,8 @@ class SuperLotto extends TblGames
 
 		for ( $i=0 ; $i < count($winArr)-2 ; $i++ ){
 			$nr = $nrArr[$i];
-			if ( array_search($nr->getNr(), $winArr) !== false ) {
+			$indx = array_search($nr->getNr(), $winArr);
+			if ( $indx  !== false && $indx != 5 ) {
 				$hits++;
 				$result[] = array (
 						"nr"    => $nr->getNr(),
@@ -162,14 +163,9 @@ class SuperLotto extends TblGames
     		throw new \Exception("Apuesta incorrecta");
     	$strP = "";
 		$prArr = $this->getPrizes()->toArray();
-    	//var_dump($stakes);
-    	/*foreach ($prArr as $key => $value) {
-    		echo "$key ->" . $value->getPrize() . "\n";
-    	}
-    	die("qq");*/
-
-		if ( $index == 0 )
-			$strP = "Pozo acumulado " . $this->nrFormat($prArr[0]->getPrize()) . " (estimado)";
+		if ( $index == 0 ){
+			$strP = (($j==0)? "Medio p": "P") . "ozo acumulado para el sorteo de referencia";
+		}
 		else {
 			$strP = $this->nrFormat($prArr[2*$index-$j]->getPrize());
 		} 
