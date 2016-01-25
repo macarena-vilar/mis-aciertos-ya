@@ -32,7 +32,7 @@
 					    </label>
 					    <div class="col-xs-6">
 					    <input type="text" 
-					           class="form-control" 
+					           class="form-control"
 					           name="{{ game.gameId }}-nr"
 					           id="{{ game.gameId }}-nr"
 					          data-gamefilter="{{ game.gameId }}"/>
@@ -45,13 +45,13 @@
 						       Monto de la apuesta
 						</label>		
 						<div class="col-xs-6">
-						    <select class="combobox form-control"
+						    <select class="form-control pull-right"
 						            id="{{ game.gameId }}-bet"
 						            data-control-type="select"
 						            data-gamefilter="{{ game.gameId }}">
 						    	<option></option>
 						    {% for stake in stakes %}
-						        <option>{{ stake }}</option>
+						        <option value="{{ stake/100 }}">{{ (stake/100) | number_format(0,',','.') }}</option>
 						    {% endfor %}
 						    </select>
 						</div>
