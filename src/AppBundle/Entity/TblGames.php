@@ -236,7 +236,12 @@ abstract class TblGames
                             where g.drawnr = :gamenr" )
                       ->setParameter ( "gamenr", $gameNr );
         $data = $query->getResult();
-        $data[0]->em = $this->em;
+        if ( $data == null )
+            return null;
+        
+        if ( $data[0]->isExpired() )
+            return "Lo siento, los premios de esa fecha ya han expirado";
+
         return $data[0];
     }
 
@@ -294,5 +299,15 @@ abstract class TblGames
     protected function nrFormat($val) {
         return "Gs " . number_format($val,0,",",".");
     }
+
+    protected function getLimitDays() {
+        return $this->getGameUI()["prizeExpiration"];
+    }
+
+    public function isExpired(){
+        $from = $this->getDrawdate();
+        $today = new \DateTime("today");
+        return $from->diff($today)->days > $this->getLimitDays();
+    }    
 
 }
