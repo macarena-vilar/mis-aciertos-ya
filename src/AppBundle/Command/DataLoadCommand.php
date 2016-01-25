@@ -25,10 +25,19 @@ class DataLoadCommand extends ContainerAwareCommand
     {
         $game = $input->getArgument('game');
         
-        $repo = $this->getContainer()->get("doctrine")->getManager()->getRepository('AppBundle:TblGames');
-        $repo->getGamesByDate($game);
+        try {
+            $repo = $this->getContainer()->get("doctrine")->getManager()->getRepository('AppBundle:TblGames');
+            $repo->getGamesByDate($game);
+        } catch ( \Exception $ex ){
 
-        $repoS = $this->getContainer()->get("doctrine")->getManager()->getRepository('AppBundle:TblStakes');
-        $repoS->loadStakesFromWS($game);
+        }
+
+        try {
+            $repoS = $this->getContainer()->get("doctrine")->getManager()->getRepository('AppBundle:TblStakes');
+            $repoS->loadStakesFromWS($game);
+
+        } catch ( \Exception $ex ){
+            
+        }
     }
 }
